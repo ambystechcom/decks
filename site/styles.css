@@ -50,6 +50,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Animated take on the wash above (ambient.js); the gradients stay as its fallback */
+#ambient-bg {
+  position: fixed; inset: 0; z-index: -10;
+  display: block; width: 100%; height: 100%;
+  pointer-events: none;
+}
+
 ::selection { background: var(--fuchsia); color: #fff; }
 
 :focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; border-radius: 4px; }

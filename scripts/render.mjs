@@ -117,10 +117,12 @@ export function renderIndex(manifest, decks) {
   <link rel="preload" href="fonts/files/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="fonts/fonts.css">
   <link rel="stylesheet" href="styles.css">
+  <script src="ambient.js" defer></script>
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <canvas id="ambient-bg" aria-hidden="true"></canvas>
 
   <header class="top">
     <div class="wrap top-inner">
