@@ -1,0 +1,10 @@
+---
+// One line of command output, appearing after `delay` seconds. Inside <Terminal>.
+// tone: (none) dim · "ok" green · "fg" bright · "path" cyan
+//
+//   <Out delay={1.6} tone="ok">✓ .claude/commands/amby/  10 files</Out>
+
+const { delay = 0, tone } = Axo.props;
+---
+
+<div class:list={['out', tone && `out-${tone}`]} style={`--d:${delay}s`}><slot /></div>

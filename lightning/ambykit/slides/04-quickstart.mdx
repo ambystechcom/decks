@@ -1,0 +1,22 @@
+<Eyebrow>03 · Quick start</Eyebrow>
+
+## From zero to a spec in four commands
+
+<Terminal path="~/my-project">
+  <Cmd delay={0.3}>npx @ambystech/ambykit init</Cmd>
+  <Out delay={1.5} tone="ok">✓ scaffolded .amby/ · emitted 3 assistants · CLAUDE.md preserved and backed up</Out>
+</Terminal>
+
+<Flow>
+  <Step title="/amby.constitution">Once. The project's guiding principles.</Step>
+  <Step title="/amby.specify">Describe a feature. Get user stories and EARS requirements.</Step>
+  <Step title="/amby.design">UI spec plus a real design-tokens file.</Step>
+  <Step title="/amby.implement">Build it from an ordered, dependency-aware task list.</Step>
+</Flow>
+
+<Callout>`init` is **non-destructive**: an existing `CLAUDE.md` or `AGENTS.md` is preserved and backed up. AmbyKit only owns its own section.</Callout>
+
+<Notes>
+- Say the init line out loud. One npx, no installer, no Python.
+- The slash commands run inside the assistant, not in the terminal. The four steps light up in order; that is the happy path.
+</Notes>

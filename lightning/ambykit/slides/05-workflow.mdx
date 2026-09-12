@@ -1,0 +1,22 @@
+<Eyebrow>04 · The workflow</Eyebrow>
+
+## Eleven phases. Each one writes a single artifact.
+
+<Phases>
+  <Step title="/amby.constitution" writes=".amby/constitution.md">Governance, once</Step>
+  <Step title="/amby.specify" writes="spec.md">WHAT and WHY, no tech</Step>
+  <Step title="/amby.clarify" writes="spec.md" optional>Resolves open markers</Step>
+  <Step title="/amby.design" writes="ui.md + design-tokens.json">The interface, signed off</Step>
+  <Step title="/amby.plan" writes="plan.md">HOW: stack and architecture</Step>
+  <Step title="/amby.tasks" writes="tasks.md">Ordered, dependency-aware</Step>
+  <Step title="/amby.implement" writes="code">One slice at a time</Step>
+  <Step title="/amby.converge" writes="tasks.md">Code vs spec, gaps appended</Step>
+</Phases>
+
+<Callout>Plus `/amby.revise` to continue a spec in place, `/amby.analyze` to cross-check artifacts, and `/amby.review` for a **different role** to critique any of them.</Callout>
+
+<Notes>
+- Happy path: specify, design, plan, tasks, implement. Everything else is there when you need it.
+- Stress the separation: spec.md has no technology decisions. plan.md is the first place tech appears.
+- Loop implement → converge until it reports converged. Converge is append-only and never edits source.
+</Notes>

@@ -1,0 +1,20 @@
+<Eyebrow>09 · The landscape</Eyebrow>
+
+## Why not just Spec-Kit?
+
+<Matrix columns={['Spec-Kit', 'Kiro', 'AmbyKit']}>
+  <Row label="EARS requirements"              cells={['✓', '✓', '✓']} tie />
+  <Row label="Code-vs-spec drift check"       cells={['✓', '—', '✓']} />
+  <Row label="Brownfield: revise in place"    cells={['✓', '✓', '✓']} tie />
+  <Row label="UI design phase + tokens"       cells={['—', '~ architecture only', '✓']} reveal />
+  <Row label="Native git worktree isolation"  cells={['—', '—', '✓']} reveal />
+  <Row label="Cross-role review, patch in place" cells={['~ setup bundles', '—', '✓']} reveal />
+  <Row label="Runtime"                        cells={['Python 3.11 + uv', 'proprietary IDE', 'Node ≥ 20, npx']} />
+  <Row label="Assistants supported"           cells={['✓ 37 integrations', 'self-contained', '— 6 families, 10 targets']} concede reveal />
+</Matrix>
+
+<Notes>
+- Give away the tie rows out loud. Spec-Kit is genuinely good, and it is the big one in this category.
+- Land on the concede row: if breadth of assistant coverage is your constraint, use Spec-Kit. Pick AmbyKit for the design phase, worktrees, and an npx install.
+- Comparison as of AmbyKit v1.1. Competitors move fast; corrections welcome.
+</Notes>

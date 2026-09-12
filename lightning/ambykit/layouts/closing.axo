@@ -1,0 +1,5 @@
+---
+// The closing slide: title-slide chrome plus the Ambystech mark, large and clipped on the right.
+export const sectionClass = 'title-slide closing-slide';
+---
+<slot />

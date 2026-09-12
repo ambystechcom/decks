@@ -1,0 +1,40 @@
+---
+layout: cover
+---
+
+<div class="cover">
+
+<div class="cover-l">
+
+<Eyebrow>Ambystech · Open source</Eyebrow>
+
+<img class="title-logo" src="assets/img/ambykit-logo.png" alt="AmbyKit" />
+
+<Subtitle>Spec-Driven Development that specs your UI too.</Subtitle>
+
+<Meta>
+  <Field label="Speaker">Gustavo Barrientos</Field>
+  <Field label="Length">~10 min</Field>
+  <Field label="Docs">ambykit.ambystech.io</Field>
+</Meta>
+
+</div>
+
+<Terminal path="~/my-project">
+  <Cmd delay={0.6}>npx @ambystech/ambykit init</Cmd>
+  <Out delay={1.9} tone="fg">? Which assistants do you use?  Claude Code, Cursor, Copilot</Out>
+  <Out delay={2.5} tone="ok">✓ .amby/                      neutral source</Out>
+  <Out delay={2.8} tone="ok">✓ .claude/commands/amby/      10 commands</Out>
+  <Out delay={3.1} tone="ok">✓ .cursor/commands/           10 commands</Out>
+  <Out delay={3.4} tone="ok">✓ .github/prompts/            10 prompts</Out>
+  <Out delay={3.7} tone="ok">✓ CLAUDE.md · AGENTS.md       merged, backed up</Out>
+  <Out delay={4.3} tone="path">Next: open your assistant and run /amby.constitution</Out>
+</Terminal>
+
+</div>
+
+<Notes>
+- One line on who you are.
+- Let the terminal finish before you speak. That is the whole product in five seconds: one command, native files for every assistant you picked.
+- The promise: in ten minutes you'll know what AmbyKit is, why the design phase matters, and how to run it in your own assistant.
+</Notes>

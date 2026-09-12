@@ -1,0 +1,647 @@
+/* This deck's own CSS. Loaded last, so it wins.
+ *
+ * Theme variables (the brand theme lives in the Axo package; override it here):
+ *   --amby-fuchsia --amby-orchid --amby-blue --amby-cyan
+ *   --amby-bg --amby-bg-2 --amby-bg-3 --amby-fg --amby-fg-dim --amby-warn --amby-ok
+ *   --font-display --font-body --font-mono
+ *
+ * ============================================================================
+ * AMBYKIT DECK — a technical audience
+ *
+ * Rules this file follows:
+ *   1. One left edge. Headline and content share it on every slide.
+ *   2. Colour is information. Fuchsia = authored by a human (spec, ui.md, constitution).
+ *      Cyan = generated or emitted (plan, tasks, code, tool configs). The wordmark itself
+ *      runs fuchsia → cyan; the deck reads the same way.
+ *   3. Mono is for what is literally typed or is a path. Labels are display face, sentence
+ *      case, no tracking.
+ *   4. Motion shows a mechanism. A command types, files get written, links draw from source
+ *      to targets, two worktrees run side by side. Nothing fades up just to fade up.
+ *      Everything fires inside `section.present` only, so the resting state is the finished
+ *      drawing — which is what the PDF and reduced-motion get.
+ *   5. One bold gesture per title slide: the AmbyKit lockup on the cover, the Ambystech mark
+ *      on the close. Everything between them is quiet.
+ * ============================================================================ */
+
+:root {
+  --amby-plum:      #1C0029;
+  --amby-plum-wash: rgba(28, 0, 41, 0.62);
+  --amby-line:      rgba(232, 234, 240, 0.10);
+  --amby-line-soft: rgba(232, 234, 240, 0.06);
+  --amby-cyan-line: rgba(0, 204, 255, 0.28);
+  --amby-fux-line:  rgba(238, 17, 153, 0.35);
+}
+
+/* ---------- 1. One left edge ---------- */
+.reveal .slides section { text-align: left; }
+.reveal h2 {
+  font-size: 1.9em;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  max-width: 30ch;
+  margin-bottom: 0.5em;
+}
+.reveal h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--amby-fg);
+}
+.reveal p, .reveal li { line-height: 1.4; }
+.reveal section > p { font-size: 0.8em; max-width: 60ch; color: var(--amby-fg-dim); }
+.reveal section > p strong { color: var(--amby-fg); }
+
+/* ---------- 2. The eyebrow: number is the pointer, label is quiet ---------- */
+.module-number {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.6em;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--amby-fuchsia);
+  margin-bottom: 0.9em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+}
+.module-number .n { color: var(--amby-fuchsia); font-variant-numeric: tabular-nums; }
+.module-number .l { color: var(--amby-fg-dim); }
+
+/* ---------- 3. Built-ins, restyled ---------- */
+
+/* .compare — the one enumeration that keeps its panels: it is a contrast */
+.compare { gap: 1.2em; margin-top: 0.3em; }
+.compare .col {
+  background: var(--amby-plum-wash);
+  border-top: 2px solid var(--amby-fuchsia);
+  border-radius: 0;
+  padding: 0.75em 0.95em 0.6em;
+  font-size: 0.7em;
+}
+.compare .col:last-child { border-top-color: var(--amby-cyan); }
+.compare .col h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.95em;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--amby-fg-dim);
+  margin-bottom: 0.6em;
+}
+.compare .col:last-child h4 { color: var(--amby-fg); }
+.compare .col li { margin-bottom: 0.4em; }
+
+/* .two-col — quiet columns, a rule not a box */
+.two-col { gap: 2.4em; margin-top: 0.9em; }
+.two-col .col { border-top: 1px solid var(--amby-line); padding-top: 0.5em; }
+.two-col .col h4 {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.6em;
+  margin-bottom: 0.45em;
+  color: var(--amby-cyan);
+}
+.two-col .col p, .two-col .col li { font-size: 0.62em; color: var(--amby-fg-dim); }
+.two-col .col strong { color: var(--amby-fg); }
+.two-col .col ul { margin-left: 0.2em; }
+
+/* .callout — the takeaway: the fuchsia bar is the pointer */
+.callout {
+  margin-top: 0.9em;
+  padding: 0.5em 0.9em;
+  background: var(--amby-plum-wash);
+  border-left: 3px solid var(--amby-fuchsia);
+  border-image: none;
+  border-radius: 0;
+  font-size: 0.64em;
+  line-height: 1.4;
+  max-width: 80ch;
+}
+
+/* .stat-row — solid numerals, sentence-case labels */
+.stat-row { gap: 2.4em; margin-top: 1em; }
+.stat-row .stat .v {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--amby-fg);
+  font-size: 1.7em;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.stat-row .stat .k {
+  font-family: var(--font-body);
+  font-size: 0.48em;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.35;
+  max-width: 18ch;
+  margin-top: 0.4em;
+}
+
+/* .tag — chips lose the mono caps; colour still carries the hue */
+.tag {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.5em;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  margin: 0 6px 8px 0;
+}
+
+/* .flow — a real sequence: number and rule share the step's colour */
+.flow { margin-top: 0.7em; gap: 1.4em; }
+.flow .step {
+  background: transparent;
+  border-top: 0;
+  padding: 0.55em 0 0.2em;
+  position: relative;
+}
+.flow .step::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: var(--rule, var(--amby-fuchsia));
+  transform-origin: left center;
+}
+.flow .step + .step { margin-left: 0; }
+.flow .step::after { content: none; }
+.flow .step:nth-child(1) { --rule: var(--amby-fuchsia); }
+.flow .step:nth-child(2) { --rule: var(--amby-fuchsia); }
+.flow .step:nth-child(3) { --rule: var(--amby-fuchsia); }
+.flow .step:nth-child(4) { --rule: var(--amby-cyan); }
+.flow .step .n {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.5em;
+  letter-spacing: 0;
+  color: var(--rule, var(--amby-fuchsia));
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.35em;
+}
+.flow .step h4 { font-family: var(--font-mono); font-size: 0.62em; margin-bottom: 0.35em; }
+.flow .step p { font-size: 0.52em; line-height: 1.42; }
+
+/* .phases — the 2×4 rail. Authored phases fuchsia, generated ones cyan. */
+.phases { gap: 10px 14px; margin-top: 0.6em; }
+.phases .p {
+  background: var(--amby-plum-wash);
+  border-top: 0;
+  border-radius: 0;
+  padding: 12px 14px 10px;
+  position: relative;
+  --rule: var(--amby-cyan);
+}
+.phases .p::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: var(--rule);
+  transform-origin: left center;
+}
+.phases .p:nth-child(1), .phases .p:nth-child(2), .phases .p:nth-child(3), .phases .p:nth-child(4) { --rule: var(--amby-fuchsia); }
+.phases .p.opt { opacity: 1; }
+.phases .p.opt::before { background: repeating-linear-gradient(90deg, var(--rule) 0 6px, transparent 6px 12px); }
+.phases .p .cmd { font-size: 0.52em; margin-bottom: 0.35em; }
+.phases .p .io { font-family: var(--font-body); font-size: 0.46em; line-height: 1.45; }
+.phases .p .io b { font-family: var(--font-mono); color: var(--amby-cyan); font-weight: 600; }
+.phases .p:nth-child(-n+4) .io b { color: var(--amby-fuchsia); }
+
+/* .matrix — the comparison table */
+.reveal .matrix table { font-size: 0.52em; }
+.reveal .matrix thead th {
+  background: transparent;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1em;
+  letter-spacing: 0;
+  text-transform: none;
+  border-bottom: 1px solid var(--amby-line);
+}
+.reveal .matrix th:last-child {
+  color: var(--amby-fg);
+  border-top: 0;
+  border-image: none;
+  position: relative;
+}
+.reveal .matrix th:last-child::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--amby-fuchsia), var(--amby-cyan));
+  transform-origin: left center;
+}
+.reveal .matrix td:first-child { font-weight: 500; font-family: var(--font-display); }
+.reveal .matrix td { border-bottom: 1px solid var(--amby-line-soft); }
+.reveal .matrix td:last-child { background: rgba(0, 204, 255, 0.05); }
+.reveal .matrix tbody tr:hover, .reveal .matrix tbody tr:hover td:last-child { background: inherit; }
+.matrix .legend { font-family: var(--font-body); letter-spacing: 0; }
+
+/* .recap */
+section.recap-slide .recap-grid { gap: 0.8em 1.2em; margin-top: 0.4em; font-size: 0.68em; }
+section.recap-slide .recap-grid .key,
+section.recap-slide .recap-grid .next {
+  background: var(--amby-plum-wash);
+  border-radius: 0;
+  padding: 12px 16px;
+}
+section.recap-slide .recap-grid .key { border-left-color: var(--amby-fuchsia); }
+section.recap-slide .recap-grid .next { border-left-color: var(--amby-cyan); }
+
+/* .terminal — the frame, plus typed lines inside it */
+.terminal {
+  max-width: 100%;
+  margin: 0.6em 0 0;
+  background: var(--amby-bg-2);
+  border: 1px solid var(--amby-line);
+  border-radius: 6px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+}
+.terminal .bar { background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid var(--amby-line-soft); }
+.terminal .bar span { letter-spacing: 0; }
+.terminal > .cmd:first-of-type, .terminal > .out:first-of-type { padding-top: 14px; }
+.terminal > :last-child { padding-bottom: 14px; }
+.terminal .cmd, .terminal .out {
+  font-family: var(--font-mono);
+  font-size: 0.5em;
+  line-height: 1.7;
+  padding: 0 20px;
+  white-space: pre;
+  color: var(--amby-fg-dim);
+  overflow: hidden;
+}
+.terminal .cmd { display: flex; align-items: baseline; color: var(--amby-fg); }
+.terminal .cmd .ps { color: var(--amby-fuchsia); margin-right: 0.8ch; font-weight: 600; }
+.terminal .cmd .typed { display: inline-block; overflow: hidden; white-space: pre; width: calc(var(--n) * 1ch); vertical-align: bottom; }
+.terminal .cmd::after { content: ""; display: inline-block; width: 0.6ch; height: 1.05em; background: var(--amby-cyan); margin-left: 2px; vertical-align: text-bottom; opacity: 0; align-self: center; }
+.out-ok   { color: var(--amby-ok); }
+.out-fg   { color: var(--amby-fg); }
+.out-path { color: var(--amby-cyan); }
+
+/* .anatomy — the annotated task line */
+.anatomy {
+  background: var(--amby-plum-wash);
+  border: 0;
+  border-left: 3px solid var(--amby-cyan);
+  border-radius: 0;
+  padding: 16px 22px;
+  margin-top: 0.6em;
+  font-size: 0.6em;
+}
+.anatomy .seg { display: inline-block; }
+.anatomy .seg + .seg { margin-left: 0.7ch; }
+.anatomy-key { gap: 14px; margin-top: 0.7em; }
+.anatomy-key .k { font-family: var(--font-body); font-size: 0.42em; border-top-color: var(--amby-line); }
+.anatomy-key .k b { font-family: var(--font-mono); }
+
+/* ---------- 4. Chrome ---------- */
+.amby-footer { font-family: var(--font-body); font-size: 12px; letter-spacing: 0.02em; text-transform: none; }
+.amby-footer .site, .amby-footer .entity { letter-spacing: 0.02em; }
+.reveal .slide-number a { border-bottom: none; }
+.reveal .progress { height: 3px; }
+.reveal .progress span { background: linear-gradient(90deg, var(--amby-fuchsia), var(--amby-cyan)); }
+
+/* ---------- 5. Title slides ---------- */
+section.title-slide { position: relative; }
+section.title-slide > * { position: relative; z-index: 1; }
+section.title-slide h1 {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--amby-fg);
+  font-size: 2.9em;
+  letter-spacing: -0.035em;
+  line-height: 1.0;
+  max-width: 13ch;
+  margin-bottom: 0.3em;
+}
+section.title-slide .subtitle {
+  font-size: 0.9em;
+  max-width: 34ch;
+  line-height: 1.4;
+  margin-bottom: 1.3em;
+  color: var(--amby-fg-dim);
+}
+section.title-slide .module-number { margin-bottom: 1em; }
+section.title-slide .meta {
+  font-family: var(--font-body);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.52em;
+  gap: 2.2em;
+}
+section.title-slide .meta span strong {
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  font-size: 1.3em;
+  letter-spacing: -0.01em;
+  margin-top: 0.25em;
+}
+
+/* the cover: lockup left, the product running on the right */
+.cover { display: grid; grid-template-columns: 1.15fr 1fr; gap: 2em; align-items: center; }
+.cover-l { min-width: 0; }
+.reveal section.cover-slide img.title-logo {
+  max-height: 250px;
+  width: auto;
+  margin: -0.9em 0 -0.3em -22px; /* the lockup's own padding; align the A to the left edge */
+  filter: drop-shadow(0 0 30px rgba(238, 17, 153, 0.22));
+}
+.cover .terminal { margin: 0; font-size: 0.92em; }
+section.cover-slide .cover .subtitle { max-width: 100%; font-size: 0.8em; margin-bottom: 1.1em; }
+.cover .terminal .cmd, .cover .terminal .out { font-size: 0.44em; }
+
+/* the close: the Ambystech mark, large, clipped by the right edge, glowing in the brand plum */
+section.closing-slide::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 54%;
+  right: -230px;
+  width: 700px;
+  height: 700px;
+  transform: translateY(-50%);
+  background: url("../assets/img/ambystech-mark.png") center / contain no-repeat;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 90px rgba(153, 50, 204, 0.5));
+  pointer-events: none;
+}
+
+/* ============================================================================
+   NEW COMPONENTS
+   ============================================================================ */
+
+/* ---------- Emit graph (slide 7) ---------- */
+.eg { width: 100%; height: auto; display: block; margin-top: 0.5em; }
+.eg-box { fill: var(--amby-plum-wash); stroke: var(--amby-line); stroke-width: 1; }
+.eg-box-src { stroke: var(--amby-fuchsia); stroke-width: 2; }
+.eg-box-out { stroke: var(--amby-cyan-line); }
+.eg-t { font-family: var(--font-display); font-weight: 500; font-size: 21px; fill: var(--amby-fg); }
+.eg-f { font-family: var(--font-mono); font-size: 15px; fill: var(--amby-fuchsia); }
+.eg-p { font-family: var(--font-mono); font-size: 15px; fill: var(--amby-cyan); }
+.eg-n { font-family: var(--font-body); font-size: 15px; fill: var(--amby-fg-dim); }
+.eg-line { fill: none; stroke: var(--amby-orchid); stroke-width: 1.5; opacity: 0.9; }
+.eg-current { fill: none; stroke: var(--amby-cyan); stroke-width: 1.5; stroke-dasharray: 2 30; opacity: 0; }
+.eg-pill { fill: var(--amby-bg); stroke: var(--amby-line); }
+.eg-sync-t { font-family: var(--font-mono); font-size: 13px; fill: var(--amby-fg-dim); }
+
+/* ---------- Design artifacts (slide 6) ---------- */
+.da { display: grid; grid-template-columns: 1.05fr 1fr; gap: 1.1em; margin-top: 0.5em; font-size: 0.5em; }
+.da-file {
+  background: var(--amby-plum-wash);
+  border: 1px solid var(--amby-line);
+  border-top: 2px solid var(--amby-fuchsia);
+  min-width: 0;
+}
+.da-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--amby-line-soft);
+}
+.da-name { font-family: var(--font-mono); font-size: 1em; color: var(--amby-fg); }
+.da-tier { font-family: var(--font-body); font-size: 0.85em; color: var(--amby-fg-dim); }
+.da-tier-h { color: var(--amby-fuchsia); }
+.da-body { padding: 14px 14px 12px; }
+.da-ui .da-body { display: grid; grid-template-columns: 1fr 0.95fr; gap: 14px; align-items: start; }
+.da-wire { width: 100%; height: auto; display: block; }
+.w-frame { fill: none; stroke: var(--amby-line); stroke-width: 1; }
+.w-box { fill: none; stroke: var(--amby-fg-dim); stroke-width: 1; opacity: 0.8; }
+.w-btn { fill: rgba(238, 17, 153, 0.22); stroke: var(--amby-fuchsia); opacity: 1; }
+.w-t { font-family: var(--font-mono); font-size: 9.5px; fill: var(--amby-fg-dim); }
+.w-tb { fill: var(--amby-fg); }
+.reveal .da-inv { list-style: none; margin: 0; padding: 0; }
+.reveal .da-inv li {
+  margin: 0 0 8px;
+  padding-left: 10px;
+  border-left: 2px solid var(--amby-line);
+  line-height: 1.3;
+}
+.reveal .da-inv li b { display: block; font-family: var(--font-mono); font-weight: 600; color: var(--amby-fg); font-size: 0.95em; }
+.reveal .da-inv li span { font-family: var(--font-body); color: var(--amby-fg-dim); font-size: 0.85em; }
+.da-json { font-family: var(--font-mono); }
+.da-row {
+  display: grid;
+  grid-template-columns: 82px auto 10px 1fr 16px;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--amby-line-soft);
+}
+.da-row .da-tier { font-size: 0.8em; }
+.reveal .da-row code { background: none; padding: 0; font-size: 0.92em; border-radius: 0; }
+.reveal .da-row .da-k { color: var(--amby-fg); }
+.da-colon { color: var(--amby-fg-dim); }
+.reveal .da-row .da-v { color: var(--amby-fg-dim); }
+.reveal .da-row:first-child .da-v { color: var(--amby-fuchsia); }
+.da-sw {
+  display: block; width: 14px; height: 14px; border-radius: 3px;
+  background: var(--c);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--c) 55%, transparent);
+}
+.da-gate {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: 0.85em;
+  color: var(--amby-fg-dim);
+}
+.da-gate-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amby-fuchsia); display: block; }
+
+/* ---------- Worktree lanes (slide 9) ---------- */
+.wt { margin-top: 0.5em; font-size: 0.5em; }
+.wt-head, .wt-lane { display: grid; grid-template-columns: 250px 1fr 120px; gap: 0 18px; align-items: center; }
+.wt-head { padding-bottom: 6px; }
+.wt-h { font-family: var(--font-body); font-size: 0.85em; color: var(--amby-fg-dim); }
+.wt-h-phases { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.wt-h-phases span { font-family: var(--font-mono); font-size: 0.95em; }
+.wt-lane { padding: 12px 0; border-top: 1px solid var(--amby-line); }
+.wt-id b { display: block; font-family: var(--font-mono); font-weight: 600; color: var(--amby-fg); font-size: 1em; }
+.wt-id span { font-family: var(--font-body); color: var(--amby-fg-dim); font-size: 0.85em; }
+.wt-track { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.wt-seg { position: relative; height: 10px; background: var(--amby-line-soft); border-radius: 2px; overflow: hidden; }
+.wt-seg i { position: absolute; inset: 0; background: var(--amby-cyan); transform-origin: left center; display: block; }
+.wt-seg:nth-child(-n+2) i { background: var(--amby-fuchsia); }
+.wt-seg-loop i { background: linear-gradient(90deg, var(--amby-blue), var(--amby-cyan)); }
+.wt-status { position: relative; font-family: var(--font-mono); font-size: 0.95em; }
+.wt-status span { position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
+.wt-st-run { color: var(--amby-fg-dim); opacity: 0; }
+.wt-st-done { color: var(--amby-ok); opacity: 1; }
+
+/* anything laid out in a grid wraps instead of spilling out of its box */
+.da-file, .wt-id, .two-col .col, .compare .col, .phases .p { min-width: 0; overflow-wrap: anywhere; }
+
+/* ============================================================================
+   MOTION — one rule: show the mechanism when the slide arrives.
+   Everything below only fires inside `section.present`, so the resting state (no class)
+   is always the finished drawing. Off under reduced-motion and in the PDF.
+   ============================================================================ */
+@keyframes amby-in    { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes amby-fade  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes amby-hide  { to { opacity: 0; } }
+@keyframes amby-on    { from, to { opacity: 1; } }
+@keyframes amby-draw  { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes amby-grow  { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes amby-type  { from { width: 0; } to { width: calc(var(--n) * 1ch); } }
+@keyframes amby-caret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes amby-pop   { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes amby-pulse { from { opacity: 1; } to { opacity: 0.35; } }
+@keyframes amby-current { to { stroke-dashoffset: -64; } }
+@keyframes amby-mark  { from { opacity: 0; transform: translateY(-50%) translateX(40px); } to { opacity: 0.6; transform: translateY(-50%); } }
+@keyframes amby-breathe {
+  from { filter: drop-shadow(0 0 90px rgba(153, 50, 204, 0.5)); }
+  to   { filter: drop-shadow(0 0 120px rgba(238, 17, 153, 0.62)); }
+}
+@keyframes amby-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-3%, 2%, 0) scale(1.06); }
+}
+
+/* ambient: the brand glow behind every slide drifts, slowly enough to be felt, not seen */
+.reveal-viewport::before { animation: amby-drift 48s ease-in-out infinite alternate; will-change: transform; }
+
+/* cover: the lockup lands, then the terminal runs */
+.reveal section.cover-slide.present img.title-logo { animation: amby-in 0.6s cubic-bezier(.2,.7,.2,1) both; }
+.reveal section.cover-slide.present .subtitle,
+.reveal section.cover-slide.present .meta { animation: amby-fade 0.5s ease-out 0.3s both; }
+.reveal section.cover-slide.present .terminal { animation: amby-in 0.5s ease-out 0.25s both; }
+
+/* close: the mark arrives, then breathes */
+.reveal .slides section.closing-slide.present::after {
+  animation: amby-mark 1.1s cubic-bezier(.2,.7,.2,1) both, amby-breathe 5s ease-in-out 1.2s infinite alternate;
+}
+.reveal section.closing-slide.present h1 { animation: amby-in 0.6s cubic-bezier(.2,.7,.2,1) both; }
+.reveal section.closing-slide.present .subtitle,
+.reveal section.closing-slide.present .meta { animation: amby-fade 0.5s ease-out 0.35s both; }
+
+/* terminal: the command types itself, the caret blinks until the output is done */
+.reveal section.present .terminal .cmd .typed { animation: amby-type var(--t) steps(var(--n), end) var(--d) both; }
+.reveal section.present .terminal .cmd::after {
+  animation: amby-caret 0.9s step-end var(--d) infinite,
+             amby-hide 0.01s linear calc(var(--d) + var(--t) + 1.4s) forwards;
+  opacity: 1;
+}
+.reveal section.present .terminal .out { animation: amby-fade 0.22s ease-out var(--d) both; }
+
+/* compare: today, then what we want, then the takeaway */
+.reveal section.present .compare .col:nth-child(1) { animation: amby-in 0.45s ease-out 0.1s both; }
+.reveal section.present .compare .col:nth-child(2) { animation: amby-in 0.45s ease-out 0.55s both; }
+.reveal section.present .compare + .callout { animation: amby-fade 0.5s ease-out 1.1s both; }
+
+/* what it is: sentence, chips, then the numbers */
+.reveal section.present .tag { animation: amby-fade 0.3s ease-out both; animation-delay: calc(0.3s + var(--i, 0) * 0.08s); }
+.reveal section.present .tag:nth-of-type(2) { --i: 1; } .reveal section.present .tag:nth-of-type(3) { --i: 2; }
+.reveal section.present .tag:nth-of-type(4) { --i: 3; } .reveal section.present .tag:nth-of-type(5) { --i: 4; }
+.reveal section.present .tag:nth-of-type(6) { --i: 5; }
+.reveal section.present .stat-row .stat { animation: amby-in 0.45s ease-out both; }
+.reveal section.present .stat-row .stat:nth-child(1) { animation-delay: 0.8s; }
+.reveal section.present .stat-row .stat:nth-child(2) { animation-delay: 0.95s; }
+.reveal section.present .stat-row .stat:nth-child(3) { animation-delay: 1.1s; }
+.reveal section.present .stat-row .stat:nth-child(4) { animation-delay: 1.25s; }
+
+/* quick start: the terminal runs, then the four steps light up in order */
+.reveal section.present .flow .step { animation: amby-fade 0.4s ease-out both; }
+.reveal section.present .flow .step::before { animation: amby-grow 0.45s ease-out both; }
+.reveal section.present .flow .step:nth-child(1), .reveal section.present .flow .step:nth-child(1)::before { animation-delay: 1.7s; }
+.reveal section.present .flow .step:nth-child(2), .reveal section.present .flow .step:nth-child(2)::before { animation-delay: 2.05s; }
+.reveal section.present .flow .step:nth-child(3), .reveal section.present .flow .step:nth-child(3)::before { animation-delay: 2.4s; }
+.reveal section.present .flow .step:nth-child(4), .reveal section.present .flow .step:nth-child(4)::before { animation-delay: 2.75s; }
+.reveal section.present .flow + .callout { animation: amby-fade 0.5s ease-out 3.3s both; }
+
+/* workflow: the rail draws in reading order, each phase's rule then its card */
+.reveal section.present .phases .p { animation: amby-fade 0.35s ease-out both; }
+.reveal section.present .phases .p::before { animation: amby-grow 0.4s ease-out both; }
+.reveal section.present .phases .p:nth-child(1), .reveal section.present .phases .p:nth-child(1)::before { animation-delay: 0.15s; }
+.reveal section.present .phases .p:nth-child(2), .reveal section.present .phases .p:nth-child(2)::before { animation-delay: 0.4s; }
+.reveal section.present .phases .p:nth-child(3), .reveal section.present .phases .p:nth-child(3)::before { animation-delay: 0.65s; }
+.reveal section.present .phases .p:nth-child(4), .reveal section.present .phases .p:nth-child(4)::before { animation-delay: 0.9s; }
+.reveal section.present .phases .p:nth-child(5), .reveal section.present .phases .p:nth-child(5)::before { animation-delay: 1.15s; }
+.reveal section.present .phases .p:nth-child(6), .reveal section.present .phases .p:nth-child(6)::before { animation-delay: 1.4s; }
+.reveal section.present .phases .p:nth-child(7), .reveal section.present .phases .p:nth-child(7)::before { animation-delay: 1.65s; }
+.reveal section.present .phases .p:nth-child(8), .reveal section.present .phases .p:nth-child(8)::before { animation-delay: 1.9s; }
+.reveal section.present .phases + .callout { animation: amby-fade 0.5s ease-out 2.5s both; }
+
+/* design artifacts: the wireframe draws, the inventory lists, then the tokens resolve */
+.reveal section.present .da-ui { animation: amby-in 0.45s ease-out 0.1s both; }
+.reveal section.present .da-tok { animation: amby-in 0.45s ease-out 1.3s both; }
+.reveal section.present .da-wire .w-frame,
+.reveal section.present .da-wire .w-box { stroke-dasharray: 1; animation: amby-draw 0.5s ease-out both; }
+.reveal section.present .da-wire .w-frame { animation-delay: 0.3s; }
+.reveal section.present .da-wire .w-1 { animation-delay: 0.55s; }
+.reveal section.present .da-wire .w-2 { animation-delay: 0.7s; }
+.reveal section.present .da-wire .w-3 { animation-delay: 0.85s; }
+.reveal section.present .da-wire .w-4 { animation-delay: 1.0s; }
+.reveal section.present .da-wire .w-5 { animation-delay: 1.15s; }
+.reveal section.present .da-wire .w-t { animation: amby-fade 0.3s ease-out 1.3s both; }
+.reveal section.present .da-inv li { animation: amby-fade 0.35s ease-out both; animation-delay: calc(0.7s + var(--i) * 0.2s); }
+.reveal section.present .da-row { animation: amby-fade 0.3s ease-out both; animation-delay: calc(1.6s + var(--i) * 0.45s); }
+.reveal section.present .da-row .da-sw { animation: amby-pop 0.3s cubic-bezier(.2,.7,.2,1.4) both; animation-delay: calc(1.85s + var(--i) * 0.45s); }
+.reveal section.present .da-gate { animation: amby-fade 0.4s ease-out 3.2s both; }
+.reveal section.present .da + .callout { animation: amby-fade 0.5s ease-out 3.5s both; }
+
+/* emit graph: the source, then each link draws to its target, then a current runs */
+.reveal section.present .eg-src { animation: amby-fade 0.4s ease-out 0.1s both; }
+.reveal section.present .eg-line { stroke-dasharray: 1; animation: amby-draw 0.5s ease-out both; animation-delay: calc(0.5s + var(--i) * 0.18s); }
+.reveal section.present .eg-out { animation: amby-fade 0.35s ease-out both; animation-delay: calc(0.85s + var(--i) * 0.18s); }
+.reveal section.present .eg-sync { animation: amby-fade 0.4s ease-out 2.1s both; }
+.reveal section.present .eg-current { animation: amby-fade 0.4s ease-out 2.3s both, amby-current 1.4s linear 2.3s infinite; opacity: 0.7; }
+.reveal section.present .eg + .callout { animation: amby-fade 0.5s ease-out 2.6s both; }
+
+/* task line: the line assembles piece by piece, each piece with its key, then the dashboard */
+.reveal section.present .anatomy .seg { animation: amby-in 0.3s ease-out both; }
+.reveal section.present .anatomy-key .k { animation: amby-fade 0.3s ease-out both; }
+.reveal section.present .anatomy .seg:nth-child(1) { animation-delay: 0.2s; } .reveal section.present .anatomy-key .k:nth-child(1) { animation-delay: 0.35s; }
+.reveal section.present .anatomy .seg:nth-child(2) { animation-delay: 0.6s; } .reveal section.present .anatomy-key .k:nth-child(2) { animation-delay: 0.75s; }
+.reveal section.present .anatomy .seg:nth-child(3) { animation-delay: 1.0s; } .reveal section.present .anatomy-key .k:nth-child(3) { animation-delay: 1.15s; }
+.reveal section.present .anatomy .seg:nth-child(4) { animation-delay: 1.4s; } .reveal section.present .anatomy-key .k:nth-child(4) { animation-delay: 1.55s; }
+.reveal section.present .anatomy .seg:nth-child(5) { animation-delay: 1.8s; } .reveal section.present .anatomy-key .k:nth-child(5) { animation-delay: 1.95s; }
+.reveal section.present .anatomy ~ .terminal { animation: amby-fade 0.4s ease-out 2.3s both; }
+.reveal section.present .anatomy ~ .callout { animation: amby-fade 0.5s ease-out 4.2s both; }
+
+/* worktree lanes: each lane walks the phases on its own clock; the last two cycle, then it converges */
+.reveal section.present .wt-lane { animation: amby-fade 0.4s ease-out both; animation-delay: calc(var(--i) * 0.2s); }
+.reveal section.present .wt-seg i { animation: amby-grow 0.4s ease-out both; animation-delay: calc(0.3s + var(--o) + var(--j) * 0.45s); }
+.reveal section.present .wt-seg-loop i {
+  animation: amby-grow 0.4s ease-out both, amby-pulse 0.55s ease-in-out 4 alternate;
+  animation-delay: calc(0.3s + var(--o) + var(--j) * 0.45s), calc(0.3s + var(--o) + 2.7s);
+}
+.reveal section.present .wt-st-run { animation: amby-on calc(0.3s + var(--o) + 4.9s) linear; }
+.reveal section.present .wt-st-done { animation: amby-fade 0.3s ease-out both; animation-delay: calc(0.3s + var(--o) + 4.9s); }
+.reveal section.present .wt + .two-col { animation: amby-fade 0.5s ease-out 1.2s both; }
+
+/* landscape: the table settles, the AmbyKit column's rule draws, revealed rows slide in */
+.reveal section.present .matrix th:last-child::after { animation: amby-grow 0.6s ease-out 0.3s both; }
+.reveal section.present .matrix tbody tr:not(.fragment) { animation: amby-fade 0.35s ease-out both; }
+.reveal section.present .matrix tbody tr:not(.fragment):nth-child(1) { animation-delay: 0.2s; }
+.reveal section.present .matrix tbody tr:not(.fragment):nth-child(2) { animation-delay: 0.35s; }
+.reveal section.present .matrix tbody tr:not(.fragment):nth-child(3) { animation-delay: 0.5s; }
+.reveal section.present .matrix tbody tr:not(.fragment):nth-child(7) { animation-delay: 0.65s; }
+.reveal .matrix tr.fragment.visible { animation: amby-in 0.4s ease-out both; }
+.reveal .matrix tr.fragment.visible td:last-child { animation: amby-fade 0.6s ease-out both; }
+
+/* recap: learned, then next, pair by pair */
+.reveal section.present .recap-grid > * { animation: amby-in 0.4s ease-out both; }
+.reveal section.present .recap-grid > :nth-child(1) { animation-delay: 0.1s; }
+.reveal section.present .recap-grid > :nth-child(2) { animation-delay: 0.3s; }
+.reveal section.present .recap-grid > :nth-child(3) { animation-delay: 0.5s; }
+.reveal section.present .recap-grid > :nth-child(4) { animation-delay: 0.7s; }
+.reveal section.present .recap-grid > :nth-child(5) { animation-delay: 0.9s; }
+.reveal section.present .recap-grid > :nth-child(6) { animation-delay: 1.1s; }
+
+/* off for the PDF and for anyone who asked for less motion: show the finished drawing */
+body.exporting .reveal section *,
+body.exporting .reveal section *::before,
+body.exporting .reveal section *::after,
+body.exporting .reveal section::after,
+body.exporting .reveal .fragment { animation: none !important; }
+body.exporting .reveal .fragment { opacity: 1 !important; visibility: visible !important; }
+body.exporting .reveal-viewport::before { animation: none !important; }
+body.exporting .terminal .cmd::after { opacity: 0 !important; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal section *, .reveal section *::before, .reveal section *::after,
+  .reveal section::after, .reveal-viewport::before { animation: none !important; }
+  .terminal .cmd::after { opacity: 0 !important; }
+}

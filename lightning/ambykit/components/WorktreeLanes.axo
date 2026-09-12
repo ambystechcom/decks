@@ -1,0 +1,43 @@
+---
+// Two features, two worktrees, two assistants, progressing side by side. Each lane walks the
+// phases; the second lane runs on its own clock so the two visibly overlap. The last phase
+// is the implement ⇄ converge loop, which cycles until it reports converged.
+//
+//   <WorktreeLanes>
+//     <Lane feature="auth" assistant="Claude Code" />
+//     <Lane feature="billing" assistant="Cursor" />
+//   </WorktreeLanes>
+
+const phases = ['specify', 'design', 'plan', 'tasks', 'implement', 'converge'];
+const lanes = toChildArray(Axo.children).map((l, i) => ({
+  feature: l.props?.feature ?? `feature-${i + 1}`,
+  assistant: l.props?.assistant ?? '',
+  offset: Number(l.props?.offset ?? i * 0.7),
+  i,
+}));
+expect(lanes.length === 2, `<WorktreeLanes> needs exactly 2 <Lane>s (got ${lanes.length}).`);
+---
+
+<div class="wt">
+  <div class="wt-head">
+    <span class="wt-h">worktree</span>
+    <span class="wt-h wt-h-phases">{phases.map((p) => <span>{p}</span>)}</span>
+    <span class="wt-h">status</span>
+  </div>
+  {lanes.map((l) => (
+    <div class="wt-lane" style={`--o:${l.offset}s;--i:${l.i}`}>
+      <div class="wt-id">
+        <b>.worktrees/{l.feature}/</b>
+        <span>{l.assistant}</span>
+      </div>
+      <div class="wt-track">
+        {phases.map((p, j) => (
+          <span class:list={['wt-seg', j >= 4 && 'wt-seg-loop']} style={`--j:${j}`}>
+            <i />
+          </span>
+        ))}
+      </div>
+      <div class="wt-status"><span class="wt-st-run">running</span><span class="wt-st-done">converged</span></div>
+    </div>
+  ))}
+</div>

@@ -1,0 +1,13 @@
+{
+  "name": "decks",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Ambystech public slide decks: builds every Axo deck and the listing page into dist/ for GitHub Pages.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:site": "node scripts/build.mjs --skip-decks",
+    "preview": "node scripts/serve.mjs dist"
+  },
+  "engines": { "node": ">=20" }
+}

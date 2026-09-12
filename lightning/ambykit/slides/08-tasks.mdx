@@ -1,0 +1,25 @@
+<Eyebrow>07 · A task line</Eyebrow>
+
+## Every line in tasks.md is machine-readable
+
+<Anatomy>
+  <Seg kind="box"  label="checkbox is the status">- [ ]</Seg>
+  <Seg kind="id"   label="stable id, never renumbered"> T014</Seg>
+  <Seg kind="par"  label="safe to run in parallel"> [P]</Seg>
+  <Seg kind="us"   label="story it serves"> [US2]</Seg>
+  <Seg kind="desc" label="what, and the file path"> Add token validation middleware in src/auth/guard.ts</Seg>
+</Anatomy>
+
+<Terminal path="~/my-project">
+  <Cmd delay={2.4}>ambykit dashboard 001:US-2</Cmd>
+  <Out delay={3.4} tone="fg">US-2  Validate tokens          P1   in-progress   depends-on US-1 ✓</Out>
+  <Out delay={3.7}>  T012 ✓  T013 ✓  T014 ·  T015 ·        2 / 4 tasks · 1 unblocked</Out>
+</Terminal>
+
+<Callout>Stories carry `priority` and `depends-on` / `blocked-by`. Tasks are ordered **topologically**, foundational work first.</Callout>
+
+<Notes>
+- The line assembles piece by piece: status, id, parallel marker, story, then the work. Every piece is what a tool reads.
+- Stable IDs are what make review, converge and revise possible: findings reference an ID, patches never renumber.
+- The dashboard output is illustrative of the shape, not a byte-for-byte capture.
+</Notes>

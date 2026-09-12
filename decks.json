@@ -1,0 +1,40 @@
+{
+  "site": {
+    "name": "Ambystech Decks",
+    "company": "Ambystech",
+    "legalName": "Xolotl Byteworks S.A. de C.V.",
+    "email": "hi@ambystech.com",
+    "description": "Slide decks the Ambystech team presents in public: lightning talks on the tools we build and the way we work. Open in the browser, no install.",
+    "urls": {
+      "corporate": "https://www.ambystech.com",
+      "oss": "https://ambystech.io",
+      "githubOrg": "https://github.com/ambystechcom",
+      "repo": "https://github.com/ambystechcom/decks"
+    }
+  },
+  "categories": [
+    {
+      "id": "lightning",
+      "name": "Lightning",
+      "blurb": "Ten minutes, one idea. Short talks we give at meetups, client sessions and internal demos.",
+      "accent": "#00CCFF"
+    }
+  ],
+  "decks": [
+    {
+      "slug": "ambykit",
+      "category": "lightning",
+      "title": "AmbyKit",
+      "pitch": "Spec-Driven Development that specs your UI too.",
+      "summary": "Why AI coding assistants ship interfaces nobody asked for, and how one neutral spec, with a first-class UI design phase, emits native commands for Claude Code, Cursor, Copilot and more.",
+      "speaker": "Gustavo Barrientos",
+      "length": "10 min",
+      "language": "English",
+      "tags": ["AI coding assistants", "spec-driven development", "TypeScript", "open source"],
+      "links": [
+        { "label": "Project on GitHub", "href": "https://github.com/ambystechcom/AmbyKit" },
+        { "label": "Docs", "href": "https://ambykit.ambystech.io" }
+      ]
+    }
+  ]
+}

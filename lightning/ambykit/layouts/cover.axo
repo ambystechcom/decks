@@ -1,0 +1,5 @@
+---
+// The opening slide: title-slide chrome plus a two-column cover (lockup left, terminal right).
+export const sectionClass = 'title-slide cover-slide';
+---
+<slot />

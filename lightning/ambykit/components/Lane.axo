@@ -1,0 +1,5 @@
+---
+// One lane of <WorktreeLanes>. Renders nothing itself; the parent reads its props.
+//   <Lane feature="auth" assistant="Claude Code" offset={0} />
+---
+<></>

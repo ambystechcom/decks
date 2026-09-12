@@ -1,0 +1,12 @@
+---
+// Overrides Axo's <Eyebrow>. "03 · Label" is split so the number can be the fuchsia pointer
+// and the label stays quiet. Anything else renders as one plain span, like the built-in.
+const raw = typeof Axo.children === 'string' ? Axo.children : null;
+const m = raw ? raw.match(/^\s*(\d+)\s*[·:]\s*(.+?)\s*$/) : null;
+---
+
+{m ? (
+  <span class="module-number"><span class="n">{m[1]}</span><span class="l">{m[2]}</span></span>
+) : (
+  <span class="module-number"><slot /></span>
+)}

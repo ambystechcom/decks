@@ -1,0 +1,20 @@
+<Eyebrow>06 · Author once, emit per tool</Eyebrow>
+
+## One source. Native files for every assistant.
+
+<EmitGraph files={['.amby/prompts/', '.amby/roles/', '.amby/config.json']}>
+  <Target path=".claude/commands/amby/*.md">Claude Code</Target>
+  <Target path=".github/prompts/*.prompt.md">GitHub Copilot</Target>
+  <Target path=".cursor/commands/*.md">Cursor</Target>
+  <Target path=".opencode/commands/*.md">OpenCode</Target>
+  <Target path=".agents/workflows/*.md">Antigravity</Target>
+  <Target path=".agents/skills/*/SKILL.md">Codex CLI</Target>
+</EmitGraph>
+
+<Callout>Rules files are **merged, not overwritten**. A new target is a thin `BaseEmitter` subclass.</Callout>
+
+<Notes>
+- The emitters encode the gotchas: Claude Code does not read AGENTS.md, so it gets a CLAUDE.md bridge. Copilot CLI has no prompt files, so phases become skills. MCP top-level keys differ per tool.
+- Six families, ten targets, because the CLI and IDE flavours of some tools differ.
+- `ambykit sync` re-emits everything from the neutral source. Edit once, sync, every assistant is current.
+</Notes>

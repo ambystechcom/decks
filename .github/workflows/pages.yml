@@ -1,0 +1,62 @@
+name: Deploy decks to GitHub Pages
+
+# Builds every deck listed in decks.json plus the listing page, uploads dist/ as the
+# Pages artifact, and deploys it on main. Each deck's own visibility guard still runs
+# inside `axo build`; the workflow only publishes what the decks allow.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # the listing shows each deck's last-changed date from git history
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Build decks and listing
+        run: npm run build
+
+      - name: Sanity-check dist/
+        run: |
+          test -f dist/index.html
+          test -f dist/.nojekyll
+          for d in $(node -p "require('./decks.json').decks.map(d => d.category + '/' + d.slug).join(' ')"); do
+            test -f "dist/$d/index.html" || { echo "missing dist/$d/index.html"; exit 1; }
+          done
+          ! grep -rq "node_modules" dist/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

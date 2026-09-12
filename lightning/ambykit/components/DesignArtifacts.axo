@@ -1,0 +1,59 @@
+---
+// The design phase's two files, rendered as the files they are: ui.md with its wireframe and
+// component inventory, design-tokens.json with the primitive → semantic → component chain.
+// When the slide arrives the wireframe draws, then the token chain resolves left to right and
+// the swatches fill with the resolved colour. Fixed content: it is AmbyKit's own artifact shape.
+
+const tokens = [
+  { k: 'color.brand.500', v: '#EE1199', tier: 'primitive' },
+  { k: 'color.action.primary', v: '{color.brand.500}', tier: 'semantic', resolves: '#EE1199' },
+  { k: 'button.primary.bg', v: '{color.action.primary}', tier: 'component', resolves: '#EE1199' },
+];
+const inventory = [
+  ['SearchField', 'idle · focused · error'],
+  ['ResultCard', 'default · selected'],
+  ['PrimaryButton', 'enabled · loading · disabled'],
+];
+---
+
+<div class="da">
+  <div class="da-file da-ui">
+    <div class="da-bar"><span class="da-name">specs/001-search/ui.md</span><span class="da-tier da-tier-h">authored</span></div>
+    <div class="da-body">
+      <svg class="da-wire" viewBox="0 0 300 168" aria-hidden="true">
+        <rect x="1" y="1" width="298" height="166" rx="3" class="w-frame" pathLength="1" />
+        <rect x="14" y="14" width="200" height="22" rx="2" class="w-box w-1" pathLength="1" />
+        <rect x="224" y="14" width="62" height="22" rx="2" class="w-box w-btn w-2" pathLength="1" />
+        <rect x="14" y="50" width="272" height="30" rx="2" class="w-box w-3" pathLength="1" />
+        <rect x="14" y="88" width="272" height="30" rx="2" class="w-box w-4" pathLength="1" />
+        <rect x="14" y="126" width="272" height="30" rx="2" class="w-box w-5" pathLength="1" />
+        <text x="22" y="29" class="w-t">query</text>
+        <text x="255" y="29" text-anchor="middle" class="w-t w-tb">Search</text>
+        <text x="22" y="69" class="w-t">ResultCard</text>
+        <text x="22" y="107" class="w-t">ResultCard</text>
+        <text x="22" y="145" class="w-t">ResultCard</text>
+      </svg>
+      <ul class="da-inv">
+        {inventory.map(([c, states], i) => (
+          <li style={`--i:${i}`}><b>{c}</b><span>{states}</span></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="da-file da-tok">
+    <div class="da-bar"><span class="da-name">specs/001-search/design-tokens.json</span><span class="da-tier da-tier-h">authored</span></div>
+    <div class="da-body da-json">
+      {tokens.map((t, i) => (
+        <div class="da-row" style={`--i:${i}`}>
+          <span class="da-tier">{t.tier}</span>
+          <code class="da-k">"{t.k}"</code>
+          <span class="da-colon">:</span>
+          <code class="da-v">"{t.v}"</code>
+          <i class="da-sw" style={`--c:${t.resolves ?? t.v}`} />
+        </div>
+      ))}
+      <div class="da-gate"><span class="da-gate-dot" />sign-off makes this binding for plan, tasks and implement</div>
+    </div>
+  </div>
+</div>

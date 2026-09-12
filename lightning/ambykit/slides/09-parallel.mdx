@@ -1,0 +1,23 @@
+<Eyebrow>08 · Parallel work</Eyebrow>
+
+## Several features, several assistants, no checkout switching
+
+<WorktreeLanes>
+  <Lane feature="auth" assistant="Claude Code" offset={0} />
+  <Lane feature="billing" assistant="Cursor" offset={0.9} />
+</WorktreeLanes>
+
+<TwoCol>
+  <Col title="/amby.review --as qa">
+    A different role critiques any artifact. Findings by stable ID, with severity and a fix. Nothing changes unless you pass `--apply`.
+  </Col>
+  <Col title="/amby.converge">
+    Checks the code against every FR, SC and checked task. Appends one gap task per miss. Loop with implement until it says **converged**.
+  </Col>
+</TwoCol>
+
+<Notes>
+- Two assistants on two features in the same repo, side by side. That is the concrete use case.
+- Each lane walks the phases on its own clock. The last segment cycles: implement, converge, implement, converge, until it reports converged.
+- Review and converge are advisory by default. Nothing is modified unless you ask.
+</Notes>

@@ -1,0 +1,16 @@
+{
+  "name": "ambykit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "axo dev",
+    "build": "axo build",
+    "preview": "axo preview",
+    "pdf": "axo pdf",
+    "clean": "axo clean"
+  },
+  "devDependencies": {
+    "@ambystech/axo": "^0.1.0"
+  }
+}
