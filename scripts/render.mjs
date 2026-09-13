@@ -143,7 +143,7 @@ export function renderIndex(manifest, decks) {
 
   <main id="main">
     <section class="intro wrap" aria-labelledby="intro-title">
-      <h1 id="intro-title">Talks we give in public.</h1>
+      <h1 id="intro-title">Engineering talks.</h1>
       <p class="lede">Short decks from Ambystech engineers on the tools we build and the way we work. Every deck opens in the browser, needs nothing installed, and is the same file we present from.</p>
       <p class="drive">Inside a deck, move with <kbd>←</kbd> <kbd>→</kbd>, press <kbd>S</kbd> for speaker notes, <kbd>F</kbd> for fullscreen and <kbd>Esc</kbd> for the overview.</p>
     </section>
