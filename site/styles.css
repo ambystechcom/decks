@@ -139,6 +139,13 @@ kbd {
   max-width: 14ch;
   margin-bottom: 1.25rem;
 }
+/* Brand gradient, same stops as ambystech.com and ambystech.io */
+.gradient-text {
+  background-image: linear-gradient(90deg, #EE1199 0%, #9932CC 28%, #00CCFF 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 .lede { max-width: 38rem; color: var(--ink-dim); font-size: 1.125rem; margin-bottom: 1.5rem; }
 .drive { max-width: 38rem; color: var(--ink-faint); font-size: 0.95rem; line-height: 2; }
 
