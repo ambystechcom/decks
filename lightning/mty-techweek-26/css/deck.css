@@ -334,7 +334,18 @@ section.title-slide .meta span strong {
 /* the cover: text holds the left half, the stage draws the page on the right */
 section.cover-slide > * { max-width: 660px; }
 section.cover-slide h1 { font-size: 3.1em; }
-section.cover-slide img[src$="qr-deck.png"] { margin-bottom: 1.2em; }
+section.cover-slide .qrs { display: flex; gap: 28px; margin: 0.2em 0 1.2em; }
+section.cover-slide .qrs figure { margin: 0; }
+section.cover-slide .qrs img { display: block; width: 150px; height: 150px; margin: 0; border-radius: 0; }
+.reveal section.cover-slide .qrs figcaption {
+  font-family: var(--font-body);
+  font-size: 0.46em;
+  text-transform: none;
+  letter-spacing: 0;
+  text-align: left;
+  color: var(--amby-fg-dim);
+  margin-top: 0.5em;
+}
 
 /* the close: the QR on the right, inside the particle ring */
 .closing img.qr {

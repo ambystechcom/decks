@@ -68,11 +68,18 @@ do not load over `file://`.
 Sequence diagrams (`07b`, `12b`) use `components/Sequence.axo`: inline SVG, so each message
 travels when its slide arrives. The Mermaid source of each is kept as a comment in the slide.
 
-The QR code points at the deck's public URL. Regenerate it if the URL changes:
+The first QR code points at the deck's public URL. Regenerate it if the URL changes:
 
 ```bash
 npx qrcode -t png -w 600 -m 2 -d 0A0D14 -l FFFFFF -o assets/img/qr-deck.png \
   "https://decks.ambystech.io/lightning/mty-techweek-26/"
+```
+
+The second QR on the closing slide points at the demo's source code:
+
+```bash
+npx qrcode -t png -w 600 -m 2 -d 0A0D14 -l FFFFFF -o assets/img/qr-demo.png \
+  "https://github.com/tavobarrientos/mty-techweek-2026-mcp-demo"
 ```
 
 ## Before the talk
