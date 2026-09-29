@@ -1,0 +1,24 @@
+---
+class: versus
+---
+
+<Eyebrow>Regla 3 · Repetir no duplica</Eyebrow>
+
+## El agente va a repetir la llamada
+
+<TwoCol>
+  <Col title="Sin protección">
+    Timeout → reintento → **8 boletos**, doble cargo, un aficionado furioso.
+  </Col>
+  <Col title="Con clave de idempotencia">
+    Misma clave → mismo apartado. La segunda llamada devuelve lo que ya existía.
+  </Col>
+</TwoCol>
+
+<Callout>Los agentes reintentan más que cualquier humano. Tu sistema tiene que aguantarlo.</Callout>
+
+<Notes>
+- [13:00] Para técnicos: idempotency key en el request, dedupe en servidor, devolver el recurso existente.
+- Para negocio: "es el botón de pagar que no te cobra dos veces aunque le piques dos veces".
+- En día de venta la red truena. El agente no sabe si su llamada llegó; va a reintentar.
+</Notes>

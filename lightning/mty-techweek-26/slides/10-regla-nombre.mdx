@@ -1,0 +1,26 @@
+---
+class: versus
+---
+
+<Eyebrow>Regla 1 · El nombre es la interfaz</Eyebrow>
+
+<Compare>
+  <Col title="Así lo tienes hoy">
+    `get_seats(e, z, n)`
+
+    "Obtiene asientos."
+  </Col>
+  <Col title="Así lo entiende un agente">
+    `buscar_asientos(evento_id, zona, cantidad, juntos)`
+
+    "Busca asientos disponibles. Con juntos=true solo devuelve bloques contiguos. Usa apartar_asientos después."
+  </Col>
+</Compare>
+
+<Callout>Si un practicante nuevo no lo entendería, un agente tampoco.</Callout>
+
+<Notes>
+- [10:15] El agente elige herramienta por nombre y descripción. Nombre ambiguo = herramienta equivocada o ninguna.
+- "juntos" es un detalle de negocio que tu cliente sí pide. Si no está en el parámetro, el agente te regresa 4 asientos regados.
+- La descripción puede decir el orden correcto de uso. Eso es diseño de flujo, en texto.
+</Notes>

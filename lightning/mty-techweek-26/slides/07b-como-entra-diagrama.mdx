@@ -1,0 +1,38 @@
+<Sequence numbered actors={[
+  { id: 'P',  name: 'Aficionado',      kind: 'person', icon: 'user' },
+  { id: 'AG', name: 'Agente',          kind: 'agent',  icon: 'robot' },
+  { id: 'B',  name: 'Boletera',        kind: 'system', icon: 'ticket', sub: 'servidor MCP' },
+]}>
+  <Msg from="P" to="AG">"4 juntos para el clásico, zona baja"</Msg>
+  <Msg from="AG" to="B">¿Qué herramientas tienes?</Msg>
+  <Msg from="B" to="AG" reply focus>buscar_asientos, apartar_asientos, comprar</Msg>
+  <Msg from="AG" to="B">buscar_asientos(clásico, zona baja, 4, juntos)</Msg>
+  <Msg from="B" to="AG" reply>112-F 7–10 · $1,380 c/u</Msg>
+  <Msg from="AG" to="B">apartar_asientos(112-F-7..10)</Msg>
+  <Msg from="B" to="AG" reply>Apartados 10 min ✓</Msg>
+  <Msg from="AG" to="P" reply>"Los tengo. ¿Confirmo la compra?"</Msg>
+</Sequence>
+
+<Callout>Todo lo que el agente sabe de ti es texto.</Callout>
+
+<Notes>
+- Recorrer de arriba abajo, sin detenerse en cada flecha.
+- Lo importante son los pasos 2 y 3: el agente pregunta qué sabes hacer y tú respondes con texto.
+- Paso 8: el agente aparta, pero la compra la confirma una persona. Adelanta la regla 4.
+</Notes>
+
+{/* Mermaid source, kept for reference:
+sequenceDiagram
+  autonumber
+  actor P as Aficionado
+  participant AG as Agente
+  participant B as Boletera (servidor MCP)
+  P->>AG: "4 juntos para el clásico, zona baja"
+  AG->>B: ¿Qué herramientas tienes?
+  B-->>AG: buscar_asientos, apartar_asientos, comprar
+  AG->>B: buscar_asientos(clásico, zona baja, 4, juntos)
+  B-->>AG: 112-F 7–10 · $1,380 c/u
+  AG->>B: apartar_asientos(112-F-7..10)
+  B-->>AG: Apartados 10 min ✓
+  AG-->>P: "Los tengo. ¿Confirmo la compra?"
+*/}

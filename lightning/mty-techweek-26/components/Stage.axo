@@ -1,0 +1,8 @@
+---
+// Loads the particle stage behind the slides: Three.js and assets/js/stage.js, both local.
+// Put it once, on the first slide. Deferred, so it runs after Reveal is initialised.
+// A slide picks its scene with `attrs: { data-stage: … }` in its frontmatter.
+---
+
+<script src="assets/vendor/three/three.min.js" defer></script>
+<script src="assets/js/stage.js" defer></script>

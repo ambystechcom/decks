@@ -1,0 +1,5 @@
+---
+// The closing slide: title-slide chrome, the QR code on the right with the particle ring around it.
+export const sectionClass = 'title-slide closing-slide';
+---
+<slot />

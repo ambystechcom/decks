@@ -49,7 +49,7 @@ for (const deck of manifest.decks) {
   }
 
   const html = readFileSync(join(target, 'index.html'), 'utf8');
-  const slides = (html.match(/<!-- \d+-[^>]*\.mdx? -->/g) ?? html.match(/<section\b/g) ?? []).length;
+  const slides = (html.match(/<!-- \d+[a-z]?-[^>]*\.mdx? -->/g) ?? html.match(/<section\b/g) ?? []).length;
   const updated = quiet(`git log -1 --format=%cs -- "${rel}"`, root) || new Date().toISOString().slice(0, 10);
 
   built.push({ ...deck, path: `${rel}/`, slides, updated, accent: category.accent });

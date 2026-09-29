@@ -1,0 +1,6 @@
+---
+// One message of a <Sequence>. <Sequence> reads its props and draws it; on its own it renders
+// nothing. Flags: `say` (a person speaking), `reply` (dashed return), `lost` (never arrives),
+// `focus` (the message the slide is about).
+expect(false, '<Msg> must be inside a <Sequence>.');
+---

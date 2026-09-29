@@ -1,0 +1,6 @@
+---
+// The opening slide: title-slide chrome, text held to the left half. The right half belongs
+// to the particle stage, which draws a screen and turns it into a tool signature.
+export const sectionClass = 'title-slide cover-slide';
+---
+<slot />

@@ -1,0 +1,25 @@
+---
+class: agent
+---
+
+<Eyebrow>¿Y cómo te encuentra?</Eyebrow>
+
+## Cuatro puertas de entrada
+
+<Flow>
+  <Step title="Conectores">Los que el usuario ya habilitó en su asistente.</Step>
+  <Step title="Registro">Un directorio público de servidores MCP.</Step>
+  <Step title="Tu dominio">Una tarjeta en tu sitio que dice qué sabes hacer.</Step>
+  <Step title="Agregadores">Un servidor que consulta a muchos por ti.</Step>
+</Flow>
+
+<Callout>Si no te puede encontrar, no te puede comprar.</Callout>
+
+<Notes>
+- [8:00] Hoy lo más común es la puerta 1: el usuario conectó la boletera a su asistente.
+- Puerta 2: el MCP Registry oficial (respaldado por Anthropic, GitHub y Microsoft) guarda metadatos de dónde está cada servidor. El agente busca "boletos" y encuentra candidatos.
+- Puerta 3: /.well-known/mcp/server-card.json en tu dominio. Ojo, es propuesta (SEP-2127), todavía estandarizándose. Decirlo así: "hacia allá va".
+- Puerta 4: el meta-buscador de boletos que ya federa oficiales y reventas.
+- Para negocio: es el SEO de los agentes.
+- Fuentes: github.com/modelcontextprotocol/modelcontextprotocol/pull/2127 · workos.com/blog/everything-your-team-needs-to-know-about-mcp-in-2026
+</Notes>

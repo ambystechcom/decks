@@ -1,0 +1,17 @@
+---
+// A shell line that types itself when its slide arrives. Inside <Terminal>.
+// `delay` in seconds; the typing takes ~0.035s per character.
+//
+//   <Cmd delay={0.4}>npx @ambystech/ambykit init</Cmd>
+//   <Out delay={1.6} tone="ok">✓ .amby/ scaffolded</Out>
+
+const { delay = 0, prompt = '$' } = Axo.props;
+const text = typeof Axo.children === 'string' ? Axo.children : String(Axo.children ?? '');
+const n = text.length;
+const dur = (n * 0.035).toFixed(2);
+---
+
+<div class="cmd" style={`--d:${delay}s;--n:${n};--t:${dur}s`}>
+  <span class="ps">{prompt}</span>
+  <span class="typed">{text}</span>
+</div>

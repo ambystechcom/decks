@@ -1,0 +1,28 @@
+<Sequence pad={250} row={56} actors={[
+  { id: 'AG', name: 'Agente',     kind: 'agent',  icon: 'robot' },
+  { id: 'S',  name: 'Tu sistema', kind: 'system', icon: 'server' },
+]}>
+  <Msg from="AG" to="S">apartar_asientos(114-C-3..6, clave=abc123)</Msg>
+  <Msg from="S" to="AG" lost>(timeout, la respuesta se pierde)</Msg>
+  <Note over="S">El apartado sí se creó</Note>
+  <Msg from="AG" to="S">apartar_asientos(114-C-3..6, clave=abc123)</Msg>
+  <Msg from="S" to="AG" reply focus>Ya existe: apartado #481 (misma clave)</Msg>
+  <Note over="AG,S" ok>4 boletos, no 8</Note>
+</Sequence>
+
+<Notes>
+- La respuesta se perdió, el apartado no. Sin clave, el reintento aparta otros 4 asientos.
+- Pasar rápido: el slide anterior ya dio la idea.
+</Notes>
+
+{/* Mermaid source (DIAGRAMS.md → idempotencia), kept for reference:
+sequenceDiagram
+  participant AG as Agente
+  participant S as Tu sistema
+  AG->>S: apartar_asientos(114-C-3..6, clave=abc123)
+  S--xAG: (timeout, la respuesta se pierde)
+  Note over S: El apartado SÍ se creó
+  AG->>S: apartar_asientos(114-C-3..6, clave=abc123)
+  S-->>AG: Ya existe: apartado #481 (misma clave)
+  Note over AG,S: 4 boletos, no 8
+*/}

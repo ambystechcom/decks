@@ -1,0 +1,5 @@
+---
+// A note across one or more lanes of a <Sequence>: `over="S"` or `over="AG,S"`. `ok` marks the
+// good outcome. <Sequence> reads its props and draws it; on its own it renders nothing.
+expect(false, '<Note> must be inside a <Sequence>.');
+---
