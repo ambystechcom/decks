@@ -23,7 +23,8 @@ const types = {
 };
 
 createServer((req, res) => {
-  const url = new URL(req.url, 'http://localhost');
+  // Collapse repeated slashes first: new URL('//x', base) reads "x" as a host, and '//' throws.
+  const url = new URL(req.url.replace(/^\/+/, '/'), 'http://localhost');
   let file = resolve(root, '.' + normalize(decodeURIComponent(url.pathname)));
   if (!file.startsWith(root)) { res.writeHead(403).end(); return; }
   if (existsSync(file) && statSync(file).isDirectory()) {

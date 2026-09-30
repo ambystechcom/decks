@@ -231,13 +231,14 @@ kbd {
 
 .facts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem 1.25rem;
   margin: 0 0 1.25rem;
   padding: 1rem 0;
   border-top: 1px solid var(--line-soft);
   border-bottom: 1px solid var(--line-soft);
 }
+.facts .fact-wide { grid-column: span 2; }
 .facts dt { font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 0.15rem; }
 .facts dd { margin: 0; font-size: 0.98rem; color: var(--ink); }
 
@@ -251,6 +252,15 @@ kbd {
 .deck-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; font-size: 0.92rem; }
 .deck-actions a:not(.button) { color: var(--ink-dim); }
 .deck-actions a:not(.button):hover { color: var(--accent); }
+.icon-link {
+  display: inline-grid; place-items: center;
+  width: 2.5rem; height: 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.icon-link:hover, .icon-link:focus-visible { border-color: var(--accent); text-decoration: none; }
+.deck-actions .icon-link + .icon-link { margin-left: -0.75rem; }
 
 /* ---------- Colophon ---------- */
 .colophon { padding-block: 5rem 2rem; max-width: calc(var(--wrap)); }

@@ -10,7 +10,7 @@ then a live demo of the same agent against two fictional ticket platforms: the o
 - **Speaker:** Gustavo Barrientos, CTO, Ambystech
 - **Length:** about 27 minutes plus questions
 - **Language:** the slides are in Spanish
-- **Online:** https://decks.ambystech.io/lightning/mty-techweek-26/
+- **Online:** https://decks.ambystech.io/talks/mty-techweek-26/
 
 Built with [Axo](https://github.com/ambystechcom/Axo) · **visibility: `public`**
 
@@ -72,7 +72,7 @@ The first QR code points at the deck's public URL. Regenerate it if the URL chan
 
 ```bash
 npx qrcode -t png -w 600 -m 2 -d 0A0D14 -l FFFFFF -o assets/img/qr-deck.png \
-  "https://decks.ambystech.io/lightning/mty-techweek-26/"
+  "https://decks.ambystech.io/talks/mty-techweek-26/"
 ```
 
 The second QR on the closing slide points at the demo's source code:

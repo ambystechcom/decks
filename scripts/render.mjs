@@ -10,11 +10,24 @@ const monthYear = (iso) =>
 const github =
   '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>';
 
+// Font Awesome Free 7.3.1 (CC BY 4.0), inlined so the listing loads no icon font.
+const icons = {
+  github: github.replace('width="16" height="16"', 'width="18" height="18"'),
+  docs: '<svg viewBox="0 0 448 512" width="16" height="18" aria-hidden="true" fill="currentColor"><path d="M384 512L96 512c-53 0-96-43-96-96L0 96C0 43 43 0 96 0L400 0c26.5 0 48 21.5 48 48l0 288c0 20.9-13.4 38.7-32 45.3l0 66.7c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0zM96 384c-17.7 0-32 14.3-32 32s14.3 32 32 32l256 0 0-64-256 0zm32-232c0 13.3 10.7 24 24 24l176 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-176 0c-13.3 0-24 10.7-24 24zm24 72c-13.3 0-24 10.7-24 24s10.7 24 24 24l176 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-176 0z"/></svg>',
+  code: '<svg viewBox="0 0 576 512" width="20" height="18" aria-hidden="true" fill="currentColor"><path d="M360.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm64.6 136.1c-12.5 12.5-12.5 32.8 0 45.3l73.4 73.4-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0zm-274.7 0c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 150.6 182.6c12.5-12.5 12.5-32.8 0-45.3z"/></svg>',
+};
+
+// An icon-only link: the label stays for screen readers (aria-label) and as the hover tooltip.
+const iconLink = (href, label, icon) =>
+  `<a class="icon-link" href="${esc(href)}" rel="noopener" aria-label="${esc(label)}" title="${esc(label)}">${icons[icon] ?? esc(label)}</a>`;
+
 function renderDeck(deck, site) {
+  // The page is English; a deck's own text carries its language so screen readers switch voice.
+  const lang = deck.lang ? ` lang="${esc(deck.lang)}"` : '';
   const src = `${site.urls.repo}/tree/main/${deck.path}`;
   const links = [
-    ...deck.links.map((l) => `<a href="${esc(l.href)}" rel="noopener">${esc(l.label)}</a>`),
-    `<a href="${esc(src)}" rel="noopener">Slides source</a>`,
+    ...deck.links.map((l) => iconLink(l.href, l.label, l.icon)),
+    iconLink(src, 'Slides source', 'code'),
   ].join('\n            ');
 
   return `
@@ -24,16 +37,17 @@ function renderDeck(deck, site) {
           <span class="preview-cta" aria-hidden="true">Open deck</span>
         </a>
         <div class="deck-body">
-          <h3 class="deck-title"><a href="${esc(deck.path)}">${esc(deck.title)}</a></h3>
-          <p class="deck-pitch">${esc(deck.pitch)}</p>
-          <p class="deck-summary">${esc(deck.summary)}</p>
+          <h3 class="deck-title"${lang}><a href="${esc(deck.path)}">${esc(deck.title)}</a></h3>
+          <p class="deck-pitch"${lang}>${esc(deck.pitch)}</p>
+          <p class="deck-summary"${lang}>${esc(deck.summary)}</p>
           <dl class="facts">
-            <div><dt>Speaker</dt><dd>${esc(deck.speaker)}</dd></div>
+            <div class="fact-wide"><dt>Speaker</dt><dd>${esc(deck.speaker)}</dd></div>
+            <div><dt>Language</dt><dd${lang}>${esc(deck.language)}</dd></div>
             <div><dt>Length</dt><dd>${esc(deck.length)}</dd></div>
             <div><dt>Slides</dt><dd>${deck.slides}</dd></div>
             <div><dt>Updated</dt><dd><time datetime="${esc(deck.updated)}">${monthYear(deck.updated)}</time></dd></div>
           </dl>
-          <ul class="tags" aria-label="Topics">
+          <ul class="tags" aria-label="Topics"${lang}>
             ${deck.tags.map((t) => `<li>${esc(t)}</li>`).join('\n            ')}
           </ul>
           <p class="deck-actions">
@@ -87,7 +101,7 @@ export function renderIndex(manifest, decks) {
           description: d.pitch,
           author: { '@type': 'Person', name: d.speaker },
           dateModified: d.updated,
-          inLanguage: 'en',
+          inLanguage: d.lang ?? 'en',
           url: d.path,
         },
       })),

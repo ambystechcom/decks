@@ -9,7 +9,7 @@ decks.json              the manifest: site data, categories, and every deck that
 site/                   the listing page's static files (styles, fonts, logos, favicons)
 scripts/build.mjs       builds each deck, then renders the listing into dist/
 scripts/render.mjs      the listing page markup
-lightning/<slug>/       one Axo deck per folder, grouped by category
+<category>/<slug>/      one Axo deck per folder, grouped by category (talks/, lightning/)
 ```
 
 ## Build
@@ -37,6 +37,13 @@ a custom domain.
 
 To start a new category, add it to `categories` in `decks.json` with a name, a one-line
 description and an accent colour, and put decks under a folder with the same `id`.
+
+Moving a deck to another category changes its URL. List the old path in the deck's
+`redirectFrom` (for example `["lightning/mty-techweek-26"]`) and the build writes a redirect
+page there, so QR codes and links already shared keep working.
+
+Each entry in a deck's `links` shows as an icon button on the listing: `icon` is `github` or
+`docs`, and `label` is what screen readers announce and the tooltip shows.
 
 ## Work on a deck
 

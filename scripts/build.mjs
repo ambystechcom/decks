@@ -23,6 +23,21 @@ const quiet = (cmd, cwd) => {
   catch { return ''; }
 };
 
+// Relative, so it works at any base path; the hash carries the slide (#/5) across the move.
+const redirectPage = (title, to) => `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>${title.replace(/[&<>"]/g, '')} (moved)</title>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="${to}">
+  <meta http-equiv="refresh" content="0; url=${to}">
+  <script>location.replace(${JSON.stringify(to)} + location.hash);</script>
+</head>
+<body><p>This deck moved to <a href="${to}">a new address</a>.</p></body>
+</html>
+`;
+
 if (!skipDecks) rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 
@@ -53,6 +68,13 @@ for (const deck of manifest.decks) {
   const updated = quiet(`git log -1 --format=%cs -- "${rel}"`, root) || new Date().toISOString().slice(0, 10);
 
   built.push({ ...deck, path: `${rel}/`, slides, updated, accent: category.accent });
+
+  // A deck that changed category keeps its old URL alive: QR codes and shared links point there.
+  for (const old of deck.redirectFrom ?? []) {
+    const to = '../'.repeat(old.split('/').length) + `${rel}/`;
+    mkdirSync(join(out, old), { recursive: true });
+    writeFileSync(join(out, old, 'index.html'), redirectPage(deck.title, to));
+  }
 }
 
 // Listing page + its static files

@@ -4,7 +4,7 @@
     "company": "Ambystech",
     "legalName": "Xolotl Byteworks S.A. de C.V.",
     "email": "hi@ambystech.com",
-    "description": "Slide decks the Ambystech team presents in public: lightning talks on the tools we build and the way we work. Open in the browser, no install.",
+    "description": "Slide decks the Ambystech team presents in public: talks and lightning talks on the tools we build and the way we work. Open in the browser, no install.",
     "urls": {
       "corporate": "https://www.ambystech.com",
       "oss": "https://ambystech.io",
@@ -13,6 +13,12 @@
     }
   },
   "categories": [
+    {
+      "id": "talks",
+      "name": "Talks",
+      "blurb": "Half an hour, one argument and a live demo. Conference and meetup talks.",
+      "accent": "#EE1199"
+    },
     {
       "id": "lightning",
       "name": "Lightning",
@@ -30,23 +36,28 @@
       "speaker": "Gustavo Barrientos",
       "length": "10 min",
       "language": "English",
+      "lang": "en",
       "tags": ["AI coding assistants", "spec-driven development", "TypeScript", "open source"],
       "links": [
-        { "label": "Project on GitHub", "href": "https://github.com/ambystechcom/AmbyKit" },
-        { "label": "Docs", "href": "https://ambykit.ambystech.io" }
+        { "label": "AmbyKit on GitHub", "icon": "github", "href": "https://github.com/ambystechcom/AmbyKit" },
+        { "label": "AmbyKit docs", "icon": "docs", "href": "https://ambykit.ambystech.io" }
       ]
     },
     {
       "slug": "mty-techweek-26",
-      "category": "lightning",
+      "category": "talks",
       "title": "Tu siguiente usuario es un agente",
       "pitch": "Cómo preparar tu producto para que los agentes de IA lo usen.",
       "summary": "El agente que actúa en nombre de tu cliente no ve tu interfaz: lee tus herramientas. Cuatro reglas para diseñar para él y una demo en vivo del mismo agente contra dos boleteras: la oficial y una reventa. Monterrey AI Talks, 29 de septiembre de 2026.",
       "speaker": "Gustavo Barrientos",
       "length": "27 min",
       "language": "Español",
+      "lang": "es",
       "tags": ["agentes de IA", "MCP", "diseño de APIs", "Monterrey Tech Week"],
-      "links": []
+      "links": [
+        { "label": "Demo source on GitHub", "icon": "github", "href": "https://github.com/tavobarrientos/mty-techweek-2026-mcp-demo" }
+      ],
+      "redirectFrom": ["lightning/mty-techweek-26"]
     }
   ]
 }
