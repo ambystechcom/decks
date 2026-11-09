@@ -1,0 +1,59 @@
+@import "tailwindcss";
+/* Design tokens and shared utilities (.container-site, .btn-*, .tag, .text-gradient,
+   .card-hover, .section-*) come from the shared Ambystech package. */
+@import "@ambystech/ui/theme.css";
+/* Tailwind v4 does not scan node_modules: let it see the package's classes. */
+@source "../../node_modules/@ambystech/ui/src";
+
+/* ------------------------------------------------------------
+   Decks site only
+   ------------------------------------------------------------ */
+@layer base {
+  html { scroll-padding-top: 8.5rem; }
+  :focus-visible { outline: 2px solid var(--color-blue-500); outline-offset: 3px; }
+  ::selection { background: var(--color-fuchsia-500); color: #fff; }
+}
+
+.skip-link {
+  position: absolute; left: 1rem; top: -3.5rem; z-index: 999;
+  background: var(--color-fuchsia-500); color: #fff; font-size: .85rem; font-weight: 700;
+  padding: .5rem 1rem; border-radius: 0 0 12px 12px; text-decoration: none; transition: top .25s;
+}
+.skip-link:focus { top: 0; }
+
+/* Hero wash and the page's soft ground. */
+.hero-ground { background: linear-gradient(135deg, #fbfbff, #f5f7ff 55%, #fff7fc); }
+.hero-wash {
+  background:
+    radial-gradient(ellipse 45% 60% at 6% 20%, rgba(119, 86, 238, .09), transparent 70%),
+    radial-gradient(ellipse 50% 60% at 94% 30%, rgba(242, 12, 149, .07), transparent 70%);
+}
+.grid-ground {
+  background-image:
+    linear-gradient(rgba(173, 184, 224, .06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(173, 184, 224, .06) 1px, transparent 1px);
+  background-size: 68px 62px;
+}
+
+/* Keyboard hint chip. */
+.kbd {
+  display: inline-grid; min-width: 30px; height: 30px; place-items: center; box-sizing: border-box;
+  border: 1px solid var(--color-line-300); border-bottom-width: 2px; border-radius: 8px;
+  background: #fff; padding: 0 8px; font: inherit; font-size: 11px; font-weight: 750; color: var(--color-navy-900);
+}
+
+/* The live preview: the deck itself, rendered by its own Reveal at 1280x720 and scaled to the
+   frame width by the script in DeckPreview.astro, so the miniature is a faithful thumbnail.
+   The frame is inert (no pointer events, no focus); the whole thing is one link. */
+.preview { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--color-surface-50); }
+.preview iframe { display: block; width: 100%; height: 100%; border: 0; pointer-events: none; background: var(--color-surface-50); }
+.preview iframe.is-scaled { width: 1280px; height: 720px; transform-origin: 0 0; }
+
+/* Language filter: hidden items leave the layout. */
+[data-filter-hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card-hover, .btn-cta { transition: none; }
+  .card-hover:hover, .btn-cta:hover { transform: none; }
+  html { scroll-behavior: auto; }
+}

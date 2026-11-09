@@ -1,23 +1,27 @@
-// Builds every deck in decks.json and the listing page into dist/.
+// Builds every deck in decks.json and the Astro listing into dist/.
 //
-//   node scripts/build.mjs               build decks + listing
-//   node scripts/build.mjs --skip-decks  reuse dist/<category>/<slug>/ from a previous run
+//   node scripts/build.mjs               build decks, then the listing, then assemble dist/
+//   node scripts/build.mjs --skip-decks  reuse the decks staged in .build/decks (listing only)
+//   node scripts/build.mjs --decks-only  stage the decks and write src/data/built.json, no listing
 //
 // A deck is an Axo project at <category>/<slug>/. Its own `axo build` enforces visibility;
-// this script only assembles what the decks produce.
+// this script only assembles what the decks produce. Order matters: `astro build` empties
+// dist/, so the decks are staged in .build/decks first and copied in afterwards.
 
 import { execSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { renderIndex } from './render.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'dist');
+const stage = join(root, '.build', 'decks');
+const builtFile = join(root, 'src', 'data', 'built.json');
 const skipDecks = process.argv.includes('--skip-decks');
+const decksOnly = process.argv.includes('--decks-only');
 const manifest = JSON.parse(readFileSync(join(root, 'decks.json'), 'utf8'));
 
-const sh = (cmd, cwd) => execSync(cmd, { cwd, stdio: 'inherit', shell: true });
+const sh = (cmd, cwd = root) => execSync(cmd, { cwd, stdio: 'inherit', shell: true });
 const quiet = (cmd, cwd) => {
   try { return execSync(cmd, { cwd, stdio: ['ignore', 'pipe', 'ignore'], shell: true }).toString().trim(); }
   catch { return ''; }
@@ -38,17 +42,17 @@ const redirectPage = (title, to) => `<!doctype html>
 </html>
 `;
 
-if (!skipDecks) rmSync(out, { recursive: true, force: true });
-mkdirSync(out, { recursive: true });
+if (!skipDecks) rmSync(stage, { recursive: true, force: true });
+mkdirSync(stage, { recursive: true });
 
-const built = [];
+// 1. Decks -> .build/decks/<category>/<slug>, plus src/data/built.json (slides, updated).
+const built = {};
 for (const deck of manifest.decks) {
-  const category = manifest.categories.find((c) => c.id === deck.category);
-  if (!category) throw new Error(`${deck.slug}: unknown category "${deck.category}"`);
+  if (!manifest.categories.some((c) => c.id === deck.category)) throw new Error(`${deck.slug}: unknown category "${deck.category}"`);
 
   const rel = `${deck.category}/${deck.slug}`;
   const dir = join(root, rel);
-  const target = join(out, rel);
+  const target = join(stage, rel);
   if (!existsSync(join(dir, 'package.json'))) throw new Error(`${rel}: no package.json, is the deck there?`);
 
   if (!skipDecks) {
@@ -60,15 +64,30 @@ for (const deck of manifest.decks) {
     rmSync(target, { recursive: true, force: true });
     cpSync(dist, target, { recursive: true });
   } else if (!existsSync(join(target, 'index.html'))) {
-    throw new Error(`${rel}: dist/${rel}/index.html missing, run without --skip-decks first`);
+    throw new Error(`${rel}: .build/decks/${rel}/index.html missing, run without --skip-decks first`);
   }
 
   const html = readFileSync(join(target, 'index.html'), 'utf8');
   const slides = (html.match(/<!-- \d+[a-z]?-[^>]*\.mdx? -->/g) ?? html.match(/<section\b/g) ?? []).length;
   const updated = quiet(`git log -1 --format=%cs -- "${rel}"`, root) || new Date().toISOString().slice(0, 10);
+  built[rel] = { slides, updated };
+}
+mkdirSync(dirname(builtFile), { recursive: true });
+writeFileSync(builtFile, JSON.stringify(built, null, 2) + '\n');
 
-  built.push({ ...deck, path: `${rel}/`, slides, updated, accent: category.accent });
+if (decksOnly) {
+  console.log(`\nstaged ${Object.keys(built).length} deck(s) in .build/decks`);
+  process.exit(0);
+}
 
+// 2. The listing (type-checked, then built; this empties dist/).
+sh('npx astro check');
+sh('npx astro build');
+
+// 3. Decks into dist/, plus redirects for decks that changed category.
+for (const deck of manifest.decks) {
+  const rel = `${deck.category}/${deck.slug}`;
+  cpSync(join(stage, rel), join(out, rel), { recursive: true });
   // A deck that changed category keeps its old URL alive: QR codes and shared links point there.
   for (const old of deck.redirectFrom ?? []) {
     const to = '../'.repeat(old.split('/').length) + `${rel}/`;
@@ -76,12 +95,7 @@ for (const deck of manifest.decks) {
     writeFileSync(join(out, old, 'index.html'), redirectPage(deck.title, to));
   }
 }
-
-// Listing page + its static files
-cpSync(join(root, 'site'), out, { recursive: true });
-writeFileSync(join(out, 'index.html'), renderIndex(manifest, built));
 writeFileSync(join(out, '.nojekyll'), '');
-writeFileSync(join(out, 'robots.txt'), 'User-agent: *\nAllow: /\n');
 
-console.log(`\nbuilt dist/ with ${built.length} deck${built.length === 1 ? '' : 's'}:`);
-for (const d of built) console.log(`  ${d.path}  ${d.slides} slides, updated ${d.updated}`);
+console.log(`\nbuilt dist/ with ${manifest.decks.length} deck${manifest.decks.length === 1 ? '' : 's'}:`);
+for (const [rel, b] of Object.entries(built)) console.log(`  ${rel}/  ${b.slides} slides, updated ${b.updated}`);

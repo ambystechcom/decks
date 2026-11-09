@@ -1,0 +1,142 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/inter';
+import SiteHeader from '@ambystech/ui/components/SiteHeader.astro';
+import SiteFooter from '@ambystech/ui/components/SiteFooter.astro';
+import Icon from '@ambystech/ui/components/Icon.astro';
+import type { IconName } from '@ambystech/ui/data/icons';
+import { site, decks } from '../data/decks';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = `${site.name}: engineering talks from Ambystech`, description = site.description } = Astro.props;
+
+const siteUrl = Astro.site ?? new URL('https://decks.ambystech.io');
+const canonical = new URL(Astro.url.pathname, siteUrl);
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Organization', name: site.company, legalName: site.legalName, url: site.urls.corporate, email: site.email },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: site.name,
+    itemListElement: decks.map((d, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'PresentationDigitalDocument',
+        name: d.title,
+        description: d.pitch,
+        author: { '@type': 'Person', name: d.speaker },
+        ...(d.updated ? { dateModified: d.updated } : {}),
+        inLanguage: d.lang,
+        url: new URL(d.path, siteUrl).toString(),
+      },
+    })),
+  },
+];
+
+// Same header and footer family as ambystech.io and ambykit.ambystech.io:
+// only the label, the links and the tagline change per site.
+const links = [
+  { label: 'Talks', href: '/#talks' },
+  { label: 'Lightning', href: '/#lightning' },
+  { label: 'Present one', href: '/#present' },
+  { label: 'Open source', href: site.urls.oss },
+];
+const columns = [
+  {
+    title: 'Projects',
+    items: [
+      { label: 'elaris.ui', href: `${site.urls.oss}/projects/elaris-ui/` },
+      { label: 'neo4j.repository', href: `${site.urls.oss}/projects/neo4j-repository/` },
+      { label: 'ambykit', href: `${site.urls.oss}/projects/ambykit/` },
+      { label: 'axo', href: `${site.urls.oss}/projects/axo/` },
+      { label: 'All repositories →', href: site.urls.githubOrg },
+    ],
+  },
+  {
+    title: 'Open source',
+    items: [
+      { label: 'ambystech.io', href: site.urls.oss },
+      { label: 'AmbyKit docs', href: site.urls.ambykit },
+      { label: 'Engineering talks', href: '/' },
+      { label: 'Contributing', href: site.urls.githubOrg },
+    ],
+  },
+  {
+    title: 'Ambystech',
+    items: [
+      { label: 'ambystech.com', href: site.urls.corporate },
+      { label: 'Insights', href: `${site.urls.corporate}/en/blog/1` },
+      { label: 'Careers', href: `${site.urls.corporate}/en/careers` },
+      { label: 'Contact', href: `${site.urls.corporate}/en/contact` },
+    ],
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.company} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@ambystechcom" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="bg-white font-sans text-ink-950 antialiased">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader homeHref="/" homeLabel="Ambystech Decks home" label="Decks" links={links}>
+      <a
+        slot="actions"
+        href={site.urls.repo}
+        rel="noopener"
+        aria-label="Decks source on GitHub"
+        class="btn-outline !h-11 !min-h-11 !gap-2 !px-0 max-md:w-11 md:!px-[18px]"
+      >
+        <Icon name="github" size={16} /><span class="max-md:hidden">GitHub</span>
+      </a>
+    </SiteHeader>
+    <slot />
+    <SiteFooter
+      homeLabel="Ambystech Open Source home"
+      homeHref={site.urls.oss}
+      tagline="Talks from Ambystech engineers about the tools they build and how they work."
+      columns={columns}
+      copyright={`© ${new Date().getFullYear()} ${site.company} · ${site.legalName}`}
+      notice="Decks are shared for reading. Ask before reusing slides."
+    >
+      <Fragment slot="brand-extra">
+        <a href={`mailto:${site.email}`} class="mt-3 inline-flex min-h-8 items-center gap-[9px] text-[12.5px] font-semibold text-navy-800 no-underline hover:text-ink-950">
+          <Icon name="envelope" size={13} /><span>{site.email}</span>
+        </a>
+        <div class="mt-2.5 flex gap-2">
+          {site.social.map((s) => (
+            <a href={s.href} rel="noopener" aria-label={s.label} class="grid size-10 place-items-center rounded-xl border border-line-200 text-navy-800 hover:border-line-300 hover:text-ink-950">
+              <Icon name={s.icon as IconName} size={15} />
+            </a>
+          ))}
+        </div>
+      </Fragment>
+    </SiteFooter>
+  </body>
+</html>

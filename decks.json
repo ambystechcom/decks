@@ -8,56 +8,84 @@
     "urls": {
       "corporate": "https://www.ambystech.com",
       "oss": "https://ambystech.io",
+      "ambykit": "https://ambykit.ambystech.io",
       "githubOrg": "https://github.com/ambystechcom",
-      "repo": "https://github.com/ambystechcom/decks"
-    }
+      "repo": "https://github.com/ambystechcom/decks",
+      "axo": "https://github.com/ambystechcom/Axo"
+    },
+    "social": [
+      { "name": "GitHub", "icon": "github", "label": "Ambystech on GitHub", "href": "https://github.com/ambystechcom" },
+      { "name": "X", "icon": "xTwitter", "label": "Ambystech on X", "href": "https://x.com/ambystechcom" },
+      { "name": "LinkedIn", "icon": "linkedin", "label": "Ambystech on LinkedIn", "href": "https://www.linkedin.com/company/ambystechmx" }
+    ]
   },
   "categories": [
     {
       "id": "talks",
       "name": "Talks",
-      "blurb": "Half an hour, one argument and a live demo. Conference and meetup talks.",
-      "accent": "#EE1199"
+      "eyebrow": "TALKS",
+      "title": "Half an hour, one argument, a live demo.",
+      "body": "Conference and meetup talks. Each one makes a single case and shows it working."
     },
     {
       "id": "lightning",
       "name": "Lightning",
-      "blurb": "Ten minutes, one idea. Short talks we give at meetups, client sessions and internal demos.",
-      "accent": "#00CCFF"
+      "eyebrow": "LIGHTNING",
+      "title": "Ten minutes, one idea.",
+      "body": "Short talks for meetups, client sessions and internal demos."
     }
   ],
   "decks": [
-    {
-      "slug": "ambykit",
-      "category": "lightning",
-      "title": "AmbyKit",
-      "pitch": "Spec-Driven Development that specs your UI too.",
-      "summary": "Why AI coding assistants ship interfaces nobody asked for, and how one neutral spec, with a first-class UI design phase, emits native commands for Claude Code, Cursor, Copilot and more.",
-      "speaker": "Gustavo Barrientos",
-      "length": "10 min",
-      "language": "English",
-      "lang": "en",
-      "tags": ["AI coding assistants", "spec-driven development", "TypeScript", "open source"],
-      "links": [
-        { "label": "AmbyKit on GitHub", "icon": "github", "href": "https://github.com/ambystechcom/AmbyKit" },
-        { "label": "AmbyKit docs", "icon": "docs", "href": "https://ambykit.ambystech.io" }
-      ]
-    },
     {
       "slug": "mty-techweek-26",
       "category": "talks",
       "title": "Tu siguiente usuario es un agente",
       "pitch": "Cómo preparar tu producto para que los agentes de IA lo usen.",
-      "summary": "El agente que actúa en nombre de tu cliente no ve tu interfaz: lee tus herramientas. Cuatro reglas para diseñar para él y una demo en vivo del mismo agente contra dos boleteras: la oficial y una reventa. Monterrey AI Talks, 29 de septiembre de 2026.",
+      "description": "How to get your product ready for AI agents. An agent acting for a customer reads your tools, not your interface. Four design rules, and a live demo of one agent against two ticket sellers: an official one and a resale one.",
+      "event": "Monterrey AI Talks · Monterrey Tech Week",
+      "date": "2026-09-29",
       "speaker": "Gustavo Barrientos",
       "length": "27 min",
       "language": "Español",
       "lang": "es",
       "tags": ["agentes de IA", "MCP", "diseño de APIs", "Monterrey Tech Week"],
       "links": [
-        { "label": "Demo source on GitHub", "icon": "github", "href": "https://github.com/tavobarrientos/mty-techweek-2026-mcp-demo" }
+        { "label": "Demo source", "icon": "code", "href": "https://github.com/tavobarrientos/mty-techweek-2026-mcp-demo" }
       ],
       "redirectFrom": ["lightning/mty-techweek-26"]
+    },
+    {
+      "slug": "ambykit",
+      "category": "lightning",
+      "title": "AmbyKit",
+      "pitch": "Spec-Driven Development that specs your UI too.",
+      "description": "Why AI coding assistants ship interfaces nobody asked for, and how one neutral spec with a UI design phase generates native commands for Claude Code, Cursor, Copilot and others.",
+      "event": "Meetups and client sessions",
+      "speaker": "Gustavo Barrientos",
+      "length": "10 min",
+      "language": "English",
+      "lang": "en",
+      "tags": ["AI coding assistants", "spec-driven development", "TypeScript", "open source"],
+      "links": [
+        { "label": "Docs", "icon": "book", "href": "https://ambykit.ambystech.io" },
+        { "label": "Repository", "icon": "github", "href": "https://github.com/ambystechcom/AmbyKit" }
+      ]
     }
-  ]
+  ],
+  "ui": {
+    "keys": [
+      { "key": "← →", "label": "Move" },
+      { "key": "S", "label": "Speaker notes" },
+      { "key": "F", "label": "Fullscreen" },
+      { "key": "Esc", "label": "Overview" }
+    ],
+    "present": {
+      "eyebrow": "PRESENT ONE YOURSELF",
+      "title": "Plain HTML. No runtime. No Wi-Fi needed.",
+      "body": "Every deck here is built with Axo, our static deck framework. Slides are MDX; the output is plain HTML that runs from a USB stick. The source lives in the decks repository.",
+      "facts": ["Slides written in MDX", "Compiled to plain HTML, no React or hydration", "Runs offline and exports to PDF"],
+      "terminalTitle": "Run the AmbyKit deck locally",
+      "commands": ["git clone https://github.com/ambystechcom/decks", "cd decks/lightning/ambykit", "npm install", "npm run dev"]
+    }
+  }
 }

@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Toolbar from '../components/Toolbar.astro';
+import DeckCard from '../components/DeckCard.astro';
+import PresentBand from '../components/PresentBand.astro';
+import { categories } from '../data/decks';
+
+const sections = categories.filter((c) => c.decks.length);
+---
+
+<Layout>
+  <main id="main" data-accent="purple">
+    <Hero />
+    <Toolbar />
+    {sections.map((c, i) => (
+      <section
+        id={c.id}
+        data-section={c.id}
+        aria-labelledby={`h-${c.id}`}
+        class:list={['py-16 min-[781px]:py-24', i % 2 ? 'bg-surface-50' : 'bg-white']}
+      >
+        <div class="container-site">
+          <div class="flex flex-col gap-4 min-[781px]:flex-row min-[781px]:items-end min-[781px]:justify-between min-[781px]:gap-10">
+            <div class="max-w-[620px] min-w-0">
+              <p class="section-eyebrow m-0 !text-xs !tracking-[.18em] accent-text">{c.eyebrow}</p>
+              <h2 id={`h-${c.id}`} class="section-title !mt-3.5">{c.title}</h2>
+            </div>
+            <p class="m-0 max-w-[42ch] text-sm leading-[1.78] text-muted-500">{c.body}</p>
+          </div>
+          <p data-empty data-filter-hidden class="mt-9 mb-0 rounded-[20px] border border-dashed border-line-300 p-7 text-center text-[13.5px] text-muted-500">
+            No decks in this language yet.
+          </p>
+          {c.decks.map((d) => <DeckCard deck={d} />)}
+        </div>
+      </section>
+    ))}
+    <PresentBand />
+  </main>
+</Layout>

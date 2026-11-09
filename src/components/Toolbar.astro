@@ -1,0 +1,50 @@
+---
+import { categories } from '../data/decks';
+
+const langs = [
+  { id: 'all', label: 'All' },
+  { id: 'EN', label: 'English' },
+  { id: 'ES', label: 'Español' },
+];
+---
+
+<div class="sticky top-16 z-40 border-y border-line-100 bg-white/85 backdrop-blur-xl min-[781px]:top-[72px]">
+  <div class="container-site flex flex-wrap items-center justify-between gap-x-6 gap-y-2.5 py-2.5">
+    <nav aria-label="Sections" class="flex flex-wrap gap-x-[22px] gap-y-1.5">
+      {categories.filter((c) => c.decks.length).map((c) => (
+        <a href={`#${c.id}`} class="inline-flex min-h-11 items-center gap-2 text-[13px] font-bold text-navy-800 no-underline hover:text-ink-950">
+          {c.name}
+          <span class="rounded-full bg-surface-100 px-2 py-0.5 text-[11px] text-slate-600" data-count={c.id}>{c.decks.length}</span>
+        </a>
+      ))}
+    </nav>
+    <div role="group" aria-label="Filter by language" class="inline-flex gap-1 rounded-full bg-surface-100 p-1">
+      {langs.map((l, i) => (
+        <button
+          type="button"
+          data-lang-btn={l.id}
+          aria-pressed={i === 0 ? 'true' : 'false'}
+          class="inline-flex min-h-9 cursor-pointer items-center rounded-full border-0 bg-transparent px-3.5 font-[inherit] text-[12.5px] font-bold text-slate-600 aria-pressed:bg-white aria-pressed:text-navy-900 aria-pressed:shadow-[0_4px_12px_rgba(47,69,114,.10)]"
+        >{l.label}</button>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Language filter: hide the decks (and empty sections' content) that don't match, keep the counts honest.
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-lang-btn]');
+  const apply = (lang: string) => {
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.langBtn === lang)));
+    document.querySelectorAll<HTMLElement>('[data-deck]').forEach((el) => {
+      el.toggleAttribute('data-filter-hidden', lang !== 'all' && el.dataset.lang !== lang);
+    });
+    document.querySelectorAll<HTMLElement>('[data-section]').forEach((section) => {
+      const shown = section.querySelectorAll('[data-deck]:not([data-filter-hidden])').length;
+      section.querySelector('[data-empty]')?.toggleAttribute('data-filter-hidden', shown > 0);
+      const count = document.querySelector(`[data-count="${section.dataset.section}"]`);
+      if (count) count.textContent = String(shown);
+    });
+  };
+  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.langBtn ?? 'all')));
+</script>

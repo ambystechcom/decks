@@ -1,0 +1,67 @@
+---
+import Icon from '@ambystech/ui/components/Icon.astro';
+import type { IconName } from '@ambystech/ui/data/icons';
+import DeckPreview from './DeckPreview.astro';
+import { site, type Deck } from '../data/decks';
+
+interface Props {
+  deck: Deck;
+}
+const { deck } = Astro.props;
+
+const meta = [
+  { k: deck.when.label, v: deck.when.value },
+  { k: 'SPEAKER', v: deck.speaker },
+  { k: 'LENGTH', v: deck.length },
+  ...(deck.slides ? [{ k: 'SLIDES', v: String(deck.slides) }] : []),
+];
+const sourceHref = `${site.urls.repo}/tree/main${deck.path}`;
+const links = [...deck.links, { label: 'Slides source', icon: 'github', href: sourceHref }];
+---
+
+<article
+  data-deck
+  data-lang={deck.code}
+  class="card-hover mt-9 box-border grid items-start gap-6 rounded-[28px] border border-line-200 bg-white p-[18px] shadow-card min-[521px]:p-6 min-[961px]:grid-cols-[1fr_1.15fr] min-[961px]:gap-10"
+>
+  <a href={deck.path} aria-label={`Open deck: ${deck.title}`} class="block overflow-hidden rounded-[20px] border border-line-200 no-underline">
+    <DeckPreview title={deck.title} path={deck.path} />
+  </a>
+  <div class="flex min-w-0 flex-col">
+    <div class="flex flex-wrap items-center gap-2">
+      <span
+        class:list={[
+          'rounded-full px-2.5 py-[5px] text-[10px] font-extrabold tracking-[.08em]',
+          deck.code === 'ES' ? 'bg-pink-50 text-fuchsia-text' : 'bg-[#eef3ff] text-[#2f5fd4]',
+        ]}>{deck.code === 'ES' ? 'ESPAÑOL' : 'ENGLISH'}</span>
+      <span class="text-xs font-semibold text-muted-500">{deck.event}</span>
+    </div>
+    <h3 lang={deck.lang} class="mt-3 mb-0 text-2xl leading-[1.15] font-bold tracking-[-.035em] text-ink-950">{deck.title}</h3>
+    <p class="mt-2.5 mb-0 text-[13.5px] leading-[1.75] text-slate-600">{deck.description}</p>
+    <dl class="mt-5 mb-0 grid grid-cols-2 gap-x-[18px] gap-y-3.5 border-t border-line-100 pt-[18px] min-[521px]:grid-cols-4">
+      {meta.map((m) => (
+        <div class="min-w-0">
+          <dt class="text-[10px] font-[830] tracking-[.16em] text-muted-500">{m.k}</dt>
+          <dd class="m-0 mt-1 text-[13px] font-bold text-navy-900">
+            {m.k === 'DATE' || m.k === 'UPDATED' ? <time datetime={deck.when.iso ?? undefined}>{m.v}</time> : m.v}
+          </dd>
+        </div>
+      ))}
+    </dl>
+    <ul aria-label="Topics" lang={deck.lang} class="mt-4 mb-0 flex list-none flex-wrap gap-1.5 p-0">
+      {deck.tags.map((t) => (
+        <li class="rounded-full bg-tag-bg px-2.5 py-[5px] text-[10px] font-extrabold tracking-[.04em] text-violet-600">{t}</li>
+      ))}
+    </ul>
+    <div class="mt-[22px] flex flex-wrap items-center gap-x-[18px] gap-y-2.5">
+      <a href={deck.path} class="btn-cta min-h-11 gap-[9px] px-5 text-[13px] font-extrabold">
+        Open deck<Icon name="arrowRight" size={12} />
+      </a>
+      {links.map((l) => (
+        <a href={l.href} rel="noopener" class="inline-flex min-h-11 items-center gap-[7px] text-[12.5px] font-bold text-navy-800 no-underline hover:text-fuchsia-text">
+          <Icon name={l.icon as IconName} size={13} />{l.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</article>

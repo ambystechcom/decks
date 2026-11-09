@@ -1,0 +1,39 @@
+---
+interface Props {
+  title: string;
+  path: string;
+  eager?: boolean;
+  class?: string;
+}
+const { title, path, eager = false, class: className = '' } = Astro.props;
+---
+
+<!-- The deck itself, rendered at 1280x720 and scaled to the frame. Without JS the iframe fills the frame. -->
+<span class:list={['preview', className]}>
+  <iframe
+    src={path}
+    title={`${title}, live preview of the first slide`}
+    loading={eager ? 'eager' : 'lazy'}
+    tabindex="-1"
+    aria-hidden="true"></iframe>
+</span>
+
+<script>
+  const frames = document.querySelectorAll<HTMLIFrameElement>('.preview iframe');
+  if (frames.length && 'ResizeObserver' in window) {
+    const fit = (frame: HTMLIFrameElement) => {
+      frame.style.transform = `scale(${frame.parentElement!.clientWidth / 1280})`;
+    };
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const frame = entry.target.querySelector('iframe');
+        if (frame) fit(frame);
+      }
+    });
+    for (const frame of frames) {
+      frame.classList.add('is-scaled');
+      fit(frame);
+      ro.observe(frame.parentElement!);
+    }
+  }
+</script>
