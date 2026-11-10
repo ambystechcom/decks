@@ -1,4 +1,7 @@
 node_modules/
 dist/
+.astro/
+.build/
+src/data/built.json
 .DS_Store
 *.pdf

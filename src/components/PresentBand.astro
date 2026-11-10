@@ -1,0 +1,67 @@
+---
+import Icon from '@ambystech/ui/components/Icon.astro';
+import { site, ui } from '../data/decks';
+
+const p = ui.present;
+---
+
+<section id="present" aria-labelledby="decks-present" class="relative overflow-hidden bg-ink-950 py-18 min-[781px]:py-26">
+  <div aria-hidden="true" class="grid-ground pointer-events-none absolute inset-0"></div>
+  <div class="container-site relative grid items-center gap-12 min-[961px]:grid-cols-[.9fr_1.1fr]">
+    <div class="min-w-0">
+      <p class="m-0 text-xs font-extrabold tracking-[.18em] text-pink-on-dark">{p.eyebrow}</p>
+      <h2 id="decks-present" class="section-title !mt-3.5 !text-white">{p.title}</h2>
+      <p class="mt-[18px] mb-0 max-w-[46ch] text-sm leading-[1.78] text-white/65">{p.body}</p>
+      <ul class="mt-[26px] mb-0 flex list-none flex-col gap-3 p-0">
+        {p.facts.map((f) => (
+          <li class="flex items-center gap-3 text-[13.5px] text-white/80">
+            <span aria-hidden="true" class="grid size-[26px] flex-none place-items-center rounded-full bg-pink-on-dark/15 text-pink-on-dark"><Icon name="check" size={11} /></span>{f}
+          </li>
+        ))}
+      </ul>
+      <a href={site.urls.axo} rel="noopener" class="mt-[26px] inline-flex min-h-11 items-center gap-2 text-[13px] font-bold text-pink-on-dark no-underline hover:text-white">
+        Axo on GitHub<Icon name="arrowRight" size={12} />
+      </a>
+    </div>
+    <div class="min-w-0 overflow-hidden rounded-3xl border border-[rgba(173,184,224,.18)] bg-canvas-900 shadow-[0_28px_75px_rgba(0,0,0,.3)]">
+      <div class="flex items-center justify-between gap-3 border-b border-[rgba(173,184,224,.14)] py-2 pr-2 pl-5">
+        <span class="text-[11px] font-bold text-white/60">{p.terminalTitle}</span>
+        <button
+          type="button"
+          id="copy-run"
+          data-copy={p.commands.join('\n')}
+          aria-label="Copy commands"
+          class="inline-flex min-h-[34px] cursor-pointer items-center gap-1.5 rounded-full border border-[rgba(173,184,224,.24)] bg-transparent px-3 font-[inherit] text-[11px] font-bold text-white/75 hover:text-white"
+        >
+          <span data-icon="idle" class="inline-flex"><Icon name="fileLines" size={12} /></span>
+          <span data-icon="done" hidden class="inline-flex"><Icon name="check" size={12} /></span>
+          <span data-label>Copy</span>
+        </button>
+      </div>
+      <pre class="m-0 overflow-x-auto px-6 py-[22px] font-mono text-[13px] leading-[1.9] whitespace-pre text-white/90"><code>{p.commands.map((c) => (<Fragment><span class="text-[#8099ff]">$</span> {c}{'\n'}</Fragment>))}</code></pre>
+    </div>
+  </div>
+</section>
+
+<script>
+  const btn = document.getElementById('copy-run') as HTMLButtonElement | null;
+  if (btn) {
+    let timer: number | undefined;
+    btn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(btn.dataset.copy ?? ''); } catch { /* clipboard blocked: still show feedback */ }
+      btn.querySelector('[data-label]')!.textContent = 'Copied';
+      btn.setAttribute('aria-label', 'Copied');
+      btn.querySelector<HTMLElement>('[data-icon="idle"]')!.hidden = true;
+      btn.querySelector<HTMLElement>('[data-icon="done"]')!.hidden = false;
+      btn.classList.add('!text-pink-on-dark', '!bg-pink-on-dark/15');
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        btn.querySelector('[data-label]')!.textContent = 'Copy';
+        btn.setAttribute('aria-label', 'Copy commands');
+        btn.querySelector<HTMLElement>('[data-icon="idle"]')!.hidden = false;
+        btn.querySelector<HTMLElement>('[data-icon="done"]')!.hidden = true;
+        btn.classList.remove('!text-pink-on-dark', '!bg-pink-on-dark/15');
+      }, 1600);
+    });
+  }
+</script>

@@ -5,25 +5,30 @@ Slide decks the Ambystech team presents in public, plus the page that lists them
 `.github/workflows/pages.yml`.
 
 ```
-decks.json              the manifest: site data, categories, and every deck that gets listed
-site/                   the listing page's static files (styles, fonts, logos, favicons)
-scripts/build.mjs       builds each deck, then renders the listing into dist/
-scripts/render.mjs      the listing page markup
+decks.json              the manifest: site data, categories, listing copy and every deck
+src/                    the listing, an Astro site on @ambystech/ui (pages, components, layout, data)
+public/                 favicons, robots.txt
+scripts/build.mjs       builds each deck, then the listing, and assembles dist/
+scripts/serve.mjs       tiny static server for dist/
 <category>/<slug>/      one Axo deck per folder, grouped by category (talks/, lightning/)
 ```
 
 ## Build
 
 ```bash
-npm run build       # builds every deck in decks.json, then dist/index.html
+npm run build       # builds every deck, then the Astro listing, into dist/
 npm run preview     # serves dist/ at http://localhost:8080
-npm run build:site  # re-renders only the listing, reusing already-built decks
+npm run build:site  # listing only, reusing the decks staged in .build/decks
+npm run decks       # stage the decks and write src/data/built.json, no listing
+npm run dev         # Astro dev server (run `npm run decks` once so the live previews load)
 ```
 
 `npm run build` runs `npm ci` and `npm run build` inside each deck (in CI, or when a deck has
-no `node_modules`), copies its `dist/` to `dist/<category>/<slug>/`, and writes the listing.
-Everything in `dist/` uses relative URLs, so it works as a project site, a user site, or under
-a custom domain.
+no `node_modules`), stages its `dist/` in `.build/decks`, runs `astro check` and `astro build`
+(which empties `dist/`), then copies the decks into `dist/<category>/<slug>/` and writes the
+redirects. Slide counts and last-changed dates come from `src/data/built.json` (generated).
+The listing uses the shared header, footer and tokens from `@ambystech/ui`; the deck previews
+are live iframes of each deck's first slide.
 
 ## Add a deck
 

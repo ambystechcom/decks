@@ -1,0 +1,46 @@
+---
+import Icon from '@ambystech/ui/components/Icon.astro';
+import DeckPreview from './DeckPreview.astro';
+import { latest, ui } from '../data/decks';
+---
+
+<section aria-labelledby="decks-hero" class="hero-ground relative overflow-hidden pt-11 pb-14 min-[781px]:pt-20 min-[781px]:pb-22">
+  <div aria-hidden="true" class="hero-wash pointer-events-none absolute inset-0"></div>
+  <div class="container-site relative grid items-center gap-10 min-[961px]:grid-cols-2 min-[961px]:gap-16">
+    <div class="min-w-0">
+      <p class="m-0 text-xs font-extrabold tracking-[.18em] text-accent-purple">AMBYSTECH DECKS</p>
+      <h1 id="decks-hero" class="mt-[18px] mb-0 text-[clamp(46px,5.5vw,78px)] leading-[.97] font-[780] tracking-[-.056em] text-ink-950">
+        Engineering <span class="text-gradient">talks.</span>
+      </h1>
+      <p class="mt-[22px] mb-0 max-w-[50ch] text-base leading-[1.8] text-muted-500">
+        Short decks from Ambystech engineers about the tools we build and how they work. Each one opens in your browser with nothing to install, and it is the same file we present from.
+      </p>
+      <ul aria-label="Keyboard controls" class="mt-7 mb-0 flex list-none flex-wrap gap-x-[18px] gap-y-2 p-0">
+        {ui.keys.map((k) => (
+          <li class="inline-flex items-center gap-2 text-[12.5px] text-slate-600"><kbd class="kbd">{k.key}</kbd>{k.label}</li>
+        ))}
+      </ul>
+    </div>
+
+    {latest && (
+      <a
+        href={latest.path}
+        aria-label={`Open the latest deck: ${latest.title}`}
+        class="card-hover block min-w-0 overflow-hidden rounded-[28px] border border-line-200 bg-white no-underline shadow-glass hover:shadow-frame"
+      >
+        <DeckPreview title={latest.title} path={latest.path} eager class="border-b border-line-200" />
+        <div class="flex items-center justify-between gap-3 px-5 py-4">
+          <span class="min-w-0">
+            <span class="block text-[10px] font-[830] tracking-[.2em] text-accent-purple">LATEST</span>
+            <span class="mt-1 block text-[13px] font-semibold text-navy-900">
+              {[latest.when.value, latest.length, latest.slides ? `${latest.slides} slides` : null].filter(Boolean).join(' · ')}
+            </span>
+          </span>
+          <span class="inline-flex flex-none items-center gap-[7px] text-[12.5px] font-bold text-fuchsia-text">
+            Open deck<Icon name="arrowRight" size={11} />
+          </span>
+        </div>
+      </a>
+    )}
+  </div>
+</section>

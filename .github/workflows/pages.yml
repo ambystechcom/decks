@@ -27,9 +27,14 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: '**/package-lock.json'
+
+      # The listing is an Astro site: it needs its own dependencies (Astro, Tailwind,
+      # @ambystech/ui, @astrojs/check) before build.mjs runs. Each deck installs its own.
+      - name: Install listing dependencies
+        run: npm ci
 
       - name: Build decks and listing
         run: npm run build
